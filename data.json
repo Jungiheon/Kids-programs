@@ -1,8 +1,8 @@
 {
   "meta": {
     "title": "초2 체험·영어 프로그램",
-    "updated_at": "2026-11-19T06:45:00+09:00",
-    "updated_label": "2026-11-19 06:45 기준",
+    "updated_at": "2026-11-19T06:55:00+09:00",
+    "updated_label": "2026-11-19 06:55 기준",
     "scope": "광장동 자차 20분 · 광진·송파·강동·구리"
   },
   "programs": [
@@ -114,6 +114,28 @@
       "opens_at": null,
       "opens_label": null,
       "url": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260902092900112208",
+      "date_start": "2026-11-21"
+    },
+    {
+      "id": "hansung-baekje-secret-castle",
+      "status": "open",
+      "title": "2026 하반기 주말가족교육 <찾아라! 백제 왕성 속 비밀들>",
+      "short": "찾아라! 백제 왕성 속 비밀들",
+      "org": "한성백제박물관",
+      "field": "experience",
+      "district": "송파",
+      "weekend": true,
+      "days": "토",
+      "schedule": "11/21(토) 13:30·15:40",
+      "target": "초등 동반 직계가족 2~4명",
+      "fee": "무료",
+      "seat_label": "잔여 2팀",
+      "seat_detail": "신청 26/28",
+      "registration": "접수 ~11/20 10:00",
+      "note": "1일 2회 같은 내용 · 11/28 회차는 정원 마감 · 12/05 회차는 11/20 10:00 오픈",
+      "opens_at": null,
+      "opens_label": null,
+      "url": "https://yeyak.seoul.go.kr/web/reservation/selectReservView.do?rsv_svc_id=S260827103049658240",
       "date_start": "2026-11-21"
     },
     {
