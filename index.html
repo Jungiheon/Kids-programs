@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>초2 체험·영어 프로그램</title>
+<meta name="description" content="광장동 자차 20분 생활권의 초2 체험·영어 프로그램 모아보기">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="체험·영어">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+  :root{
+    --ink:#17191d;
+    --muted:#6b7280;
+    --line:#e6e8ec;
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --accent:#2f6fed;
+    --en:#4c3fd0;
+    --en-bg:#eeecfd;
+    --open:#0b7a52;
+    --open-bg:#e6f5ee;
+    --soon:#a5500a;
+    --soon-bg:#fdf0e3;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+    font-size:16px;
+    line-height:1.45;
+    padding-bottom:calc(24px + env(safe-area-inset-bottom));
+  }
+  .wrap{max-width:640px;margin:0 auto;padding:0 14px}
+
+  /* header */
+  header.top{padding-top:calc(14px + env(safe-area-inset-top))}
+  header.top h1{
+    margin:0;
+    font-size:21px;
+    font-weight:800;
+    letter-spacing:-0.02em;
+  }
+  header.top .meta{
+    margin:5px 0 0;
+    font-size:12.5px;
+    color:var(--muted);
+    display:flex;
+    flex-wrap:wrap;
+    gap:4px 8px;
+    align-items:center;
+  }
+  header.top .meta .dot{color:#c9ced6}
+  .sepline{height:1px;background:var(--line);margin:13px 0 0}
+
+  /* filters */
+  .filters{padding:11px 0 3px}
+  .frow{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+  .frow .label{
+    flex:0 0 30px;
+    font-size:11.5px;
+    font-weight:700;
+    color:#9aa1ab;
+    letter-spacing:-0.01em;
+  }
+  .chips{
+    display:flex;
+    gap:6px;
+    overflow-x:auto;
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    padding:2px 0;
+  }
+  .chips::-webkit-scrollbar{display:none}
+  .chip{
+    flex:0 0 auto;
+    border:1px solid var(--line);
+    background:#fff;
+    color:#454b54;
+    font:inherit;
+    font-size:13px;
+    font-weight:600;
+    padding:6px 12px;
+    border-radius:999px;
+    white-space:nowrap;
+    cursor:pointer;
+    transition:background .12s,color .12s,border-color .12s;
+  }
+  .chip[aria-pressed="true"]{
+    background:var(--ink);
+    border-color:var(--ink);
+    color:#fff;
+  }
+  .searchwrap{position:relative;margin:3px 0 0}
+  .searchwrap svg{
+    position:absolute;left:11px;top:50%;transform:translateY(-50%);
+    width:16px;height:16px;stroke:#a6acb5;fill:none;stroke-width:2;stroke-linecap:round
+  }
+  #q{
+    width:100%;
+    border:1px solid var(--line);
+    background:#fff;
+    border-radius:11px;
+    padding:10px 34px 10px 34px;
+    font:inherit;
+    font-size:15px;
+    color:var(--ink);
+    -webkit-appearance:none;
+    appearance:none;
+  }
+  #q::placeholder{color:#a6acb5}
+  #q:focus{outline:none;border-color:#c3cbd8}
+  #clearq{
+    position:absolute;right:6px;top:50%;transform:translateY(-50%);
+    border:0;background:none;color:#a6acb5;font-size:17px;line-height:1;
+    padding:7px 8px;cursor:pointer;display:none
+  }
+
+  /* banner */
+  .banner{
+    margin-top:12px;
+    background:#fff;
+    border:1px solid var(--line);
+    border-left:4px solid #f0a13c;
+    border-radius:13px;
+    padding:12px 13px 11px;
+    box-shadow:0 1px 2px rgba(23,25,29,.03);
+  }
+  .banner .btitle{
+    font-size:12.5px;
+    font-weight:800;
+    color:var(--soon);
+    letter-spacing:-0.01em;
+    display:flex;align-items:center;gap:6px;
+    margin-bottom:8px;
+  }
+  .banner .btitle .n{
+    background:var(--soon-bg);color:var(--soon);
+    border-radius:999px;padding:1px 7px;font-size:11px;font-weight:800
+  }
+  .blist{display:flex;flex-direction:column;gap:2px}
+  .brow{
+    display:flex;align-items:baseline;gap:8px;
+    padding:5px 0;border-top:1px solid #f2f3f5;
+    background:none;border-left:0;border-right:0;border-bottom:0;
+    width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;
+  }
+  .blist .brow:first-child{border-top:0}
+  .brow .when{
+    flex:0 0 auto;font-size:12.5px;font-weight:800;color:#8a5a1e;
+    font-variant-numeric:tabular-nums;white-space:nowrap
+  }
+  .brow .what{
+    font-size:13.5px;color:#3b414a;font-weight:600;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap
+  }
+  .brow .what small{font-weight:500;color:var(--muted);font-size:12px}
+  .moreb{
+    margin-top:7px;border:0;background:#f7f8fa;color:#5b626c;
+    font:inherit;font-size:12.5px;font-weight:700;border-radius:9px;
+    padding:7px 10px;width:100%;cursor:pointer
+  }
+
+  /* summary */
+  .summary{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:10px;padding:14px 2px 8px;font-size:12.5px;color:var(--muted)
+  }
+  .summary b{color:var(--ink);font-weight:800;font-size:13.5px}
+  .resetf{
+    border:0;background:none;color:#7a828d;font:inherit;font-size:12.5px;
+    font-weight:600;text-decoration:underline;text-underline-offset:2px;
+    padding:2px;cursor:pointer;display:none
+  }
+
+  /* cards */
+  .cards{display:flex;flex-direction:column;gap:11px}
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:15px;
+    padding:14px 14px 13px;
+    box-shadow:0 1px 2px rgba(23,25,29,.04);
+    scroll-margin-top:16px;
+    transition:box-shadow .35s,border-color .35s;
+  }
+  .card.flash{border-color:#f6c88f;box-shadow:0 0 0 4px #fbeedd}
+  .badges{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+  .badge{
+    font-size:11.5px;font-weight:800;letter-spacing:-0.01em;
+    padding:3px 8px;border-radius:6px;line-height:1.5
+  }
+  .badge.en{background:var(--en-bg);color:var(--en);border:1px solid #ddd8fa}
+  .badge.open{background:var(--open-bg);color:var(--open)}
+  .badge.upcoming{background:var(--soon-bg);color:var(--soon)}
+  .card h2{
+    margin:0 0 3px;
+    font-size:16.5px;
+    line-height:1.35;
+    font-weight:800;
+    letter-spacing:-0.02em;
+  }
+  .org{
+    margin:0 0 10px;
+    font-size:12.5px;
+    color:var(--muted);
+    display:flex;align-items:center;gap:6px;flex-wrap:wrap
+  }
+  .org .dist{
+    border:1px solid var(--line);border-radius:5px;padding:0 5px;
+    font-size:11px;font-weight:700;color:#5c636d
+  }
+  .specs{
+    margin:0;
+    border-top:1px solid #f0f1f4;
+    padding-top:8px;
+  }
+  .specs .r{display:flex;gap:8px;padding:2.5px 0;font-size:13.5px}
+  .specs dt{
+    flex:0 0 38px;color:#9aa1ab;font-weight:700;font-size:11.5px;
+    padding-top:2px;letter-spacing:-0.01em
+  }
+  .specs dd{margin:0;color:#2b3037;font-weight:600;letter-spacing:-0.01em}
+  .specs dd.seat{color:var(--open);font-weight:800}
+  .specs dd.soonv{color:var(--soon);font-weight:800}
+  .specs dd .sub{color:var(--muted);font-weight:600;font-size:12px}
+  .note{
+    margin:8px 0 0;
+    font-size:12.5px;
+    color:#8a5a1e;
+    background:#fdf7ef;
+    border-radius:8px;
+    padding:6px 9px;
+    font-weight:600;
+  }
+  .cta{
+    display:flex;align-items:center;justify-content:center;
+    margin-top:11px;height:47px;
+    background:var(--accent);color:#fff;
+    text-decoration:none;border-radius:11px;
+    font-size:15px;font-weight:800;letter-spacing:-0.01em;
+    box-shadow:0 1px 2px rgba(47,111,237,.25);
+  }
+  .cta:active{background:#2860d4}
+  .cta.soon{background:#3c424b}
+  .cta.soon:active{background:#2d3238}
+
+  /* empty / error */
+  .empty{
+    background:#fff;border:1px dashed #dcdfe4;border-radius:14px;
+    padding:30px 16px;text-align:center;color:var(--muted);font-size:13.5px
+  }
+  .empty b{display:block;color:var(--ink);font-size:14.5px;margin-bottom:4px}
+
+  footer{
+    margin-top:20px;padding-top:12px;border-top:1px solid var(--line);
+    font-size:11.5px;color:#9aa1ab;line-height:1.65
+  }
+  footer p{margin:0 0 3px}
+  footer .tip{color:#7a828d}
+  .skel{height:120px;border-radius:15px;background:linear-gradient(100deg,#f0f1f4 30%,#f7f8fa 50%,#f0f1f4 70%);background-size:200% 100%;animation:sk 1.1s infinite linear}
+  @keyframes sk{from{background-position:150% 0}to{background-position:-50% 0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <h1 id="title">초2 체험·영어 프로그램</h1>
+    <p class="meta">
+      <span id="updated">불러오는 중…</span>
+      <span class="dot">·</span>
+      <span id="scope">광장동 자차 20분 · 광진·송파·강동·구리</span>
+    </p>
+    <div class="sepline"></div>
+  </header>
+
+  <nav class="filters" aria-label="필터">
+    <div class="frow">
+      <span class="label">상태</span>
+      <div class="chips" data-group="status">
+        <button class="chip" data-value="all" aria-pressed="true">전체</button>
+        <button class="chip" data-value="open" aria-pressed="false">지금 신청가능</button>
+        <button class="chip" data-value="upcoming" aria-pressed="false">오픈 예정</button>
+      </div>
+    </div>
+    <div class="frow">
+      <span class="label">분야</span>
+      <div class="chips" data-group="field">
+        <button class="chip" data-value="all" aria-pressed="true">전체</button>
+        <button class="chip" data-value="english" aria-pressed="false">영어 특화</button>
+        <button class="chip" data-value="experience" aria-pressed="false">체험·작가·과학</button>
+      </div>
+    </div>
+    <div class="frow">
+      <span class="label">지역</span>
+      <div class="chips" data-group="district">
+        <button class="chip" data-value="all" aria-pressed="true">전체</button>
+        <button class="chip" data-value="광진" aria-pressed="false">광진</button>
+        <button class="chip" data-value="송파" aria-pressed="false">송파</button>
+        <button class="chip" data-value="강동" aria-pressed="false">강동</button>
+        <button class="chip" data-value="구리" aria-pressed="false">구리</button>
+      </div>
+    </div>
+    <div class="frow">
+      <span class="label">요일</span>
+      <div class="chips" data-group="day">
+        <button class="chip" data-value="all" aria-pressed="true">전체</button>
+        <button class="chip" data-value="weekend" aria-pressed="false">주말(토·일)</button>
+      </div>
+    </div>
+    <div class="searchwrap">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-4.2-4.2"></path></svg>
+      <input id="q" type="search" inputmode="search" autocomplete="off" placeholder="프로그램·기관 검색">
+      <button id="clearq" type="button" aria-label="검색어 지우기">✕</button>
+    </div>
+  </nav>
+
+  <main>
+    <section id="banner" class="banner" hidden>
+      <div class="btitle">다가오는 오픈 일정 <span class="n" id="bcount"></span></div>
+      <div class="blist" id="blist"></div>
+      <button class="moreb" id="bmore" type="button" hidden></button>
+    </section>
+
+    <div class="summary">
+      <span id="count"></span>
+      <button class="resetf" id="reset" type="button">필터 초기화</button>
+    </div>
+
+    <div class="cards" id="list">
+      <div class="skel"></div>
+      <div class="skel"></div>
+    </div>
+  </main>
+
+  <footer>
+    <p>정보는 각 기관 공지와 신청 페이지 기준이라, 신청 전 잔여석·대상·접수 시간을 한 번 더 확인해 주세요.</p>
+    <p class="tip">사파리에서 공유 → “홈 화면에 추가”를 누르면 앱처럼 열려요.</p>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var state = {status:"all", field:"all", district:"all", day:"all", q:""};
+  var DATA = null;
+  var bannerOpen = false;
+
+  var el = {
+    title: document.getElementById("title"),
+    updated: document.getElementById("updated"),
+    scope: document.getElementById("scope"),
+    banner: document.getElementById("banner"),
+    bcount: document.getElementById("bcount"),
+    blist: document.getElementById("blist"),
+    bmore: document.getElementById("bmore"),
+    count: document.getElementById("count"),
+    reset: document.getElementById("reset"),
+    list: document.getElementById("list"),
+    q: document.getElementById("q"),
+    clearq: document.getElementById("clearq")
+  };
+
+  function esc(s){
+    return String(s == null ? "" : s)
+      .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+      .replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+  }
+  function safeUrl(u){
+    return /^https?:\/\//i.test(u || "") ? u : "#";
+  }
+  function weekendOf(p){
+    return p.weekend === true || p.weekend === "true" || /토|일/.test(p.days || "");
+  }
+  function sortOpen(a,b){ return (a.date_start||"").localeCompare(b.date_start||""); }
+  function sortSoon(a,b){ return (a.opens_at||"").localeCompare(b.opens_at||""); }
+
+  /* ---------- render ---------- */
+  function renderCards(){
+    var q = state.q.trim().toLowerCase();
+    var rows = DATA.programs.filter(function(p){
+      if (state.status !== "all" && p.status !== state.status) return false;
+      if (state.field !== "all" && p.field !== state.field) return false;
+      if (state.district !== "all" && p.district !== state.district) return false;
+      if (state.day === "weekend" && !weekendOf(p)) return false;
+      if (q){
+        var hay = [p.title,p.short,p.org,p.district,p.target,p.schedule,p.field].join(" ").toLowerCase();
+        if (hay.indexOf(q) < 0) return false;
+      }
+      return true;
+    });
+    var open = rows.filter(function(p){return p.status === "open";}).sort(sortOpen);
+    var soon = rows.filter(function(p){return p.status !== "open";}).sort(sortSoon);
+    rows = open.concat(soon);
+
+    var openAll = DATA.programs.filter(function(p){return p.status === "open";}).length;
+    var soonAll = DATA.programs.filter(function(p){return p.status !== "open";}).length;
+    el.count.innerHTML = "<b>" + rows.length + "개</b> 표시 · 지금 신청가능 " + openAll +
+      " · 오픈 예정 " + soonAll;
+
+    var filtered = state.status !== "all" || state.field !== "all" ||
+                   state.district !== "all" || state.day !== "all" || q !== "";
+    el.reset.style.display = filtered ? "inline-block" : "none";
+
+    if (!rows.length){
+      el.list.innerHTML = '<div class="empty"><b>조건에 맞는 프로그램이 없어요</b>' +
+        '필터를 하나씩 풀거나 검색어를 지워 보세요.</div>';
+      return;
+    }
+
+    el.list.innerHTML = rows.map(function(p){
+      var isOpen = p.status === "open";
+      var badges = "";
+      if (p.field === "english") badges += '<span class="badge en">영어 특화</span>';
+      if (isOpen){
+        badges += '<span class="badge open">지금 신청가능' +
+          (p.seat_label ? " · " + esc(p.seat_label) : "") + '</span>';
+      } else {
+        badges += '<span class="badge upcoming">오픈 예정' +
+          (p.opens_label ? " · " + esc(p.opens_label) : "") + '</span>';
+      }
+
+      var spec = "";
+      if (p.schedule) spec += '<div class="r"><dt>수업</dt><dd>' + esc(p.schedule) + '</dd></div>';
+      if (p.target)   spec += '<div class="r"><dt>대상</dt><dd>' + esc(p.target) + '</dd></div>';
+      if (p.fee)      spec += '<div class="r"><dt>참가비</dt><dd>' + esc(p.fee) + '</dd></div>';
+      if (isOpen && p.seat_detail)
+        spec += '<div class="r"><dt>잔여</dt><dd class="seat">' + esc(p.seat_label || "") +
+                ' <span class="sub">· ' + esc(p.seat_detail) + '</span></dd></div>';
+      if (!isOpen && p.registration)
+        spec += '<div class="r"><dt>접수</dt><dd class="soonv">' + esc(p.registration) + '</dd></div>';
+      else if (p.registration)
+        spec += '<div class="r"><dt>접수</dt><dd>' + esc(p.registration) + '</dd></div>';
+
+      return '<article class="card" id="card-' + esc(p.id) + '">' +
+        '<div class="badges">' + badges + '</div>' +
+        '<h2>' + esc(p.title) + '</h2>' +
+        '<p class="org">' + esc(p.org) +
+          (p.district ? '<span class="dist">' + esc(p.district) + '</span>' : '') + '</p>' +
+        '<dl class="specs">' + spec + '</dl>' +
+        (p.note ? '<p class="note">' + esc(p.note) + '</p>' : '') +
+        '<a class="cta' + (isOpen ? '' : ' soon') + '" href="' + esc(safeUrl(p.url)) +
+          '" target="_blank" rel="noopener">' +
+          (isOpen ? "신청 페이지 바로가기 →" : "프로그램 페이지 바로가기 →") + '</a>' +
+        '</article>';
+    }).join("");
+  }
+
+  function renderBanner(){
+    var soon = DATA.programs.filter(function(p){
+      return p.status !== "open" && p.opens_at;
+    }).sort(sortSoon);
+    if (!soon.length){ el.banner.hidden = true; return; }
+    el.banner.hidden = false;
+    el.bcount.textContent = soon.length + "건";
+    var shown = bannerOpen ? soon : soon.slice(0,3);
+    el.blist.innerHTML = shown.map(function(p){
+      return '<button class="brow" type="button" data-goto="' + esc(p.id) + '">' +
+        '<span class="when">' + esc(p.opens_label || "") + '</span>' +
+        '<span class="what">' + esc(p.short || p.title) +
+          ' <small>' + esc(p.org) + '</small></span></button>';
+    }).join("");
+    if (soon.length > 3){
+      el.bmore.hidden = false;
+      el.bmore.textContent = bannerOpen ? "접기" : "＋" + (soon.length - 3) + "건 더 보기";
+    } else {
+      el.bmore.hidden = true;
+    }
+  }
+
+  /* ---------- events ---------- */
+  document.querySelectorAll(".chips").forEach(function(group){
+    var key = group.getAttribute("data-group");
+    group.addEventListener("click", function(e){
+      var btn = e.target.closest(".chip");
+      if (!btn) return;
+      state[key] = btn.getAttribute("data-value");
+      group.querySelectorAll(".chip").forEach(function(c){
+        c.setAttribute("aria-pressed", c === btn ? "true" : "false");
+      });
+      renderCards();
+    });
+  });
+
+  el.q.addEventListener("input", function(){
+    state.q = el.q.value;
+    el.clearq.style.display = el.q.value ? "block" : "none";
+    renderCards();
+  });
+  el.clearq.addEventListener("click", function(){
+    el.q.value = ""; state.q = ""; el.clearq.style.display = "none"; renderCards(); el.q.focus();
+  });
+  el.reset.addEventListener("click", function(){
+    state = {status:"all", field:"all", district:"all", day:"all", q:""};
+    document.querySelectorAll(".chips").forEach(function(group){
+      group.querySelectorAll(".chip").forEach(function(c){
+        c.setAttribute("aria-pressed", c.getAttribute("data-value") === "all" ? "true" : "false");
+      });
+    });
+    el.q.value = ""; el.clearq.style.display = "none";
+    renderCards();
+  });
+
+  el.blist.addEventListener("click", function(e){
+    var b = e.target.closest(".brow");
+    if (!b) return;
+    var card = document.getElementById("card-" + b.getAttribute("data-goto"));
+    if (!card){
+      /* 지금 필터에 가려져 있으면 필터를 풀고 이동 */
+      state = {status:"all", field:"all", district:"all", day:"all", q:""};
+      document.querySelectorAll(".chips").forEach(function(group){
+        group.querySelectorAll(".chip").forEach(function(c){
+          c.setAttribute("aria-pressed", c.getAttribute("data-value") === "all" ? "true" : "false");
+        });
+      });
+      el.q.value = ""; el.clearq.style.display = "none";
+      renderCards();
+      card = document.getElementById("card-" + b.getAttribute("data-goto"));
+    }
+    if (!card) return;
+    card.scrollIntoView({behavior:"smooth", block:"center"});
+    card.classList.add("flash");
+    setTimeout(function(){ card.classList.remove("flash"); }, 1600);
+  });
+
+  el.bmore.addEventListener("click", function(){
+    bannerOpen = !bannerOpen;
+    renderBanner();
+  });
+
+  /* ---------- load ---------- */
+  function load(){
+    el.updated.textContent = "불러오는 중…";
+    fetch("data.json?t=" + Date.now(), {cache:"no-store"})
+      .then(function(r){
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        return r.json();
+      })
+      .then(function(d){
+        DATA = d;
+        var meta = DATA.meta || {};
+        if (meta.title){ document.title = meta.title; el.title.textContent = meta.title; }
+        if (meta.updated_label) el.updated.textContent = meta.updated_label;
+        if (meta.scope) el.scope.textContent = meta.scope;
+        DATA.programs = DATA.programs || [];
+        renderBanner();
+        renderCards();
+      })
+      .catch(function(err){
+        el.updated.textContent = "데이터를 불러오지 못했어요";
+        el.list.innerHTML = '<div class="empty"><b>목록을 불러오지 못했어요</b>' +
+          '잠시 뒤 다시 열어 주세요. (' + esc(err.message) + ')</div>';
+      });
+  }
+
+  load();
+
+  /* 앱이 백그라운드에서 돌아오면 조용히 새로고침 */
+  document.addEventListener("visibilitychange", function(){
+    if (document.visibilityState === "visible" && DATA){
+      var last = sessionStorage.getItem("lastReload");
+      var now = Date.now();
+      if (!last || now - Number(last) > 5 * 60 * 1000){
+        sessionStorage.setItem("lastReload", String(now));
+        fetch("data.json?t=" + now, {cache:"no-store"})
+          .then(function(r){ return r.ok ? r.json() : null; })
+          .then(function(d){
+            if (!d) return;
+            DATA = d;
+            DATA.programs = DATA.programs || [];
+            if (d.meta && d.meta.updated_label) el.updated.textContent = d.meta.updated_label;
+            renderBanner(); renderCards();
+          })
+          .catch(function(){});
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
