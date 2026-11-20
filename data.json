@@ -110,10 +110,10 @@
       "seat_label": "",
       "seat_detail": "신청 0/12 · 대기 0/12",
       "registration": "11/25(수) 10:00 ~ 12/02 18:00",
-      "note": "회원 조건 홈페이지 미표기 · 같은 날 6~7세반 16:00 별도",
+      "note": "송파구통합도서관 정회원 필수(대출카드·온라인 회원증) · 참여 어린이 ID로 신청",
       "opens_at": "2026-11-25T10:00:00+09:00",
       "opens_label": "11/25(수) 10:00",
-      "url": "https://www.splib.or.kr/intro/menu/10052/program/30014/eventList.do?currentPageNo=1&eventStatusCd=ready",
+      "url": "https://www.splib.or.kr/intro/menu/10052/program/30014/eventDetail.do?eventIdx=630545",
       "date_start": "2026-12-04"
     },
     {
@@ -135,7 +135,7 @@
       "note": "홈페이지 준회원 이상 · 홈페이지 대상 표기가 '2021~2020년생'으로 잘못 적혀 있음(제목은 초1~3)",
       "opens_at": "2026-11-25T11:00:00+09:00",
       "opens_label": "11/25(화) 11:00",
-      "url": "https://www.splib.or.kr/intro/menu/10052/program/30014/eventList.do?currentPageNo=1&eventStatusCd=ready",
+      "url": "https://www.splib.or.kr/intro/menu/10052/program/30014/eventDetail.do?eventIdx=630862",
       "date_start": "2026-12-03"
     },
     {
@@ -157,7 +157,7 @@
       "note": "",
       "opens_at": "2026-11-27T10:00:00+09:00",
       "opens_label": "11/27(금) 10:00",
-      "url": "https://www.splib.or.kr/intro/menu/10052/program/30014/eventList.do?currentPageNo=1&eventStatusCd=ready",
+      "url": "https://www.splib.or.kr/intro/menu/10052/program/30014/eventDetail.do?eventIdx=630311",
       "date_start": "2026-12-12"
     },
     {
@@ -179,7 +179,7 @@
       "note": "",
       "opens_at": "2026-12-01T10:00:00+09:00",
       "opens_label": "12/01(화) 10:00",
-      "url": "https://www.splib.or.kr/intro/menu/10052/program/30014/eventList.do?currentPageNo=1&eventStatusCd=ready",
+      "url": "https://www.splib.or.kr/intro/menu/10052/program/30014/eventDetail.do?eventIdx=630550",
       "date_start": "2026-12-16"
     },
     {
@@ -201,7 +201,7 @@
       "note": "",
       "opens_at": "2026-12-04T10:00:00+09:00",
       "opens_label": "12/04(금) 10:00",
-      "url": "https://www.splib.or.kr/intro/menu/10052/program/30014/eventList.do?currentPageNo=1&eventStatusCd=ready",
+      "url": "https://www.splib.or.kr/intro/menu/10052/program/30014/eventDetail.do?eventIdx=630568",
       "date_start": "2026-12-19"
     },
     {
@@ -217,8 +217,8 @@
       "schedule": "매일 5회차 09:30~17:40 (회차 60명)",
       "target": "초등 3학년 이하 + 보호자 동반",
       "fee": "무료",
-      "seat_label": "회차별 잔여 다수",
-      "seat_detail": "11/22 298/300 · 11/24 131/300 · 11/25 125/300",
+      "seat_label": "주중 잔여 다수",
+      "seat_detail": "11/22 신청 298/300 · 11/24 131/300 · 11/25 125/300",
       "registration": "이용 전날 17:00까지 · 다음 달분까지 예약",
       "note": "월요일 휴관 · 초3 이하 어린이 대상 · 보호자 없이 성인만 입장 불가",
       "opens_at": null,
