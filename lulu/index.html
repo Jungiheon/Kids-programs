@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>룰루레몬 세일</title>
-<meta name="description" content="룰루레몬 '너무 많이 만들었어요' 할인 상품을 할인율 순으로, 내 사이즈(6·8·M·L) 주문 가능한 것만 모아보기">
+<title>룰루레몬 세일 · 공식몰+무신사</title>
+<meta name="description" content="룰루레몬 '너무 많이 만들었어요' 할인 상품을 공식몰과 무신사에서 함께, 할인율 순으로. 여성 의류는 내 사이즈(6·8·M·L) 주문 가능한 것만 모아보기">
 <meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -43,6 +43,7 @@
     display:flex;align-items:center;gap:6px;
     font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);
   }
+  header.top .eyebrow .plus{letter-spacing:0;color:#9aa1ab;font-weight:800}
   header.top h1{margin:2px 0 0;font-size:22px;font-weight:800;letter-spacing:-.02em}
   header.top .meta{
     margin:5px 0 0;font-size:12.5px;color:var(--muted);
@@ -57,6 +58,8 @@
     border:1px solid var(--line);border-radius:999px;padding:4px 9px;
   }
   .summary span b{color:var(--red)}
+  .summary span.m b{color:#111318}
+  .summary span.o b{color:#6b7280}
 
   /* sticky filter bar */
   .bar{
@@ -88,10 +91,15 @@
     padding:4px 10px;border-radius:999px;border:1px solid var(--line);
     background:#fff;color:#4b515b;cursor:pointer;white-space:nowrap;
   }
+  .chips button .n{margin-left:4px;font-weight:600;color:#9aa1ab;font-size:11.5px}
   .chips button[aria-pressed="true"]{background:#e9ebef;border-color:#d6d9df;color:var(--ink);font-weight:700}
+  .chips button[aria-pressed="true"] .n{color:#5f6672}
+  .chips button.chan[aria-pressed="true"]{background:#111318;border-color:#111318;color:#fff}
+  .chips button.chan[aria-pressed="true"] .n{color:#c6cbd4}
   .chips button.acc[aria-pressed="true"]{background:#eef2ff;border-color:#d6ddf7;color:#26327a}
   .chips button.szmine[aria-pressed="true"]{background:var(--green-bg);border-color:#bfe3cf;color:var(--green)}
   .chips .lbl{flex:0 0 auto;font-size:11.5px;font-weight:700;color:#9aa1ab;padding-right:1px}
+  .chips .note{flex:0 0 auto;font-size:11.5px;color:#9aa1ab;padding-left:2px}
 
   /* tools */
   .tools{display:flex;gap:8px;margin-top:10px}
@@ -144,6 +152,13 @@
   }
   .badge.hi{background:var(--red)}
   .badge.mid{background:#d9480f}
+  .src{
+    position:absolute;right:7px;top:7px;
+    font-size:10.5px;font-weight:800;letter-spacing:-.01em;
+    background:rgba(255,255,255,.94);color:#2b2f36;
+    border-radius:6px;padding:2px 6px;border:1px solid rgba(17,19,24,.08);
+  }
+  .src.m{background:#111318;color:#fff;border-color:#111318}
   .body{padding:8px 9px 10px;display:flex;flex-direction:column;gap:5px}
   .name{
     margin:0;font-size:12.8px;line-height:1.35;font-weight:600;color:#22252b;
@@ -161,6 +176,9 @@
     border-radius:6px;padding:2px 6px;
   }
   .szbadge em{font-style:normal;font-weight:700;color:#5b8a72}
+  .altline{margin:0;font-size:10.5px;color:#9aa1ab;display:flex;align-items:center;gap:4px}
+  .altline b{font-weight:800;color:#6b7280}
+  .altline.cheap b{color:var(--green)}
 
   .empty{
     margin:36px 0;text-align:center;color:var(--muted);font-size:14px;line-height:1.6;
@@ -173,6 +191,7 @@
     font-size:11.5px;color:#9aa1ab;line-height:1.7;
   }
   footer.foot a{color:#6b7280}
+  footer.foot b{color:#6b7280}
   .skeleton{background:linear-gradient(90deg,#eef0f2,#f6f7f8,#eef0f2);background-size:200% 100%;animation:sk 1.2s infinite}
   @keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
 </style>
@@ -180,7 +199,7 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="eyebrow">We Made Too Much</div>
+    <div class="eyebrow">We Made Too Much <span class="plus">+ 무신사</span></div>
     <h1>룰루레몬 세일</h1>
     <p class="meta">
       <span id="updated">불러오는 중…</span>
@@ -192,8 +211,8 @@
 
   <div class="bar">
     <div class="seg" id="tabs" role="tablist" aria-label="할인율"></div>
-    <div class="chips" id="kinds" aria-label="구분"></div>
-    <div class="chips" id="gens" aria-label="성별"></div>
+    <div class="chips" id="chans" aria-label="채널"></div>
+    <div class="chips" id="kinds" aria-label="구분·성별"></div>
     <div class="chips" id="sizes" aria-label="내 사이즈"></div>
   </div>
 
@@ -215,9 +234,11 @@
   <div class="empty" id="empty" hidden></div>
 
   <footer class="foot">
-    <div>* 표시 가격은 룰루레몬 코리아 공식 사이트의 판매가·정가이며, 실제 결제 금액과 재고는 공식 사이트에서 확인해 주세요.</div>
-    <div>* 여성 의류는 <b>6 · 8 · M · L</b> 중 지금 주문 가능한 사이즈만 표시합니다(기본값). 사이즈 재고는 상품 단위로 확인해 컬러에 따라 다를 수 있어요. 남성·액세서리에는 사이즈 필터를 적용하지 않습니다.</div>
-    <div>업데이트 <span id="updated2">–</span> · <a href="https://www.lululemon.co.kr/ko-kr/c/womens-we-made-too-much" target="_blank" rel="noopener">여성</a> · <a href="https://www.lululemon.co.kr/ko-kr/c/mens-we-made-too-much" target="_blank" rel="noopener">남성</a> · <a href="https://www.lululemon.co.kr/ko-kr/c/accessories-we-made-too-much" target="_blank" rel="noopener">액세서리</a></div>
+    <div>* 가격은 <b>룰루레몬 공식몰</b>과 <b>무신사 룰루레몬 공식 브랜드숍</b>의 표시가이며, 실제 결제 금액과 재고는 각 상품 페이지에서 확인해 주세요.</div>
+    <div>* 여성 의류는 <b>6 · 8 · M · L</b> 중 지금 주문 가능한 사이즈만 표시합니다(기본값). 무신사는 표준 사이즈 <b>S · M · L</b>을 6 · 8 · L에 대응해 판정했어요. 남성·액세서리에는 사이즈 필터를 적용하지 않습니다.</div>
+    <div>* 무신사는 <b>30% 이상 할인</b>된 여성 의류(내 사이즈 재고 있음)·액세서리만 담았습니다. 공식몰은 '너무 많이 만들었어요' 전체입니다.</div>
+    <div>* <b>↔</b> 는 같은 상품이 다른 채널에도 있을 때의 그 채널 가격입니다(상품명 기준, 색상·옵션에 따라 다를 수 있어요).</div>
+    <div>업데이트 <span id="updated2">–</span> · <a href="https://www.lululemon.co.kr/ko-kr/c/womens-we-made-too-much" target="_blank" rel="noopener">공식몰 여성</a> · <a href="https://www.lululemon.co.kr/ko-kr/c/accessories-we-made-too-much" target="_blank" rel="noopener">공식몰 액세서리</a> · <a href="https://www.musinsa.com/brand/lululemon" target="_blank" rel="noopener">무신사 룰루레몬</a></div>
   </footer>
 </div>
 
@@ -231,6 +252,7 @@
     'womens-hoodies-and-sweatshirts':'후디·스웻셔츠','w-wmtm-hoodies-and-sweatshirts':'후디·스웻셔츠',
     'womens-sports-bras':'스포츠브라','womens-underwear':'언더웨어','womens-t-shirts':'티셔츠',
     'womens-tops':'탑','womens-shoes':'슈즈','womens-socks':'양말','womens-dresses ':'드레스',
+    'womens-knit':'니트','womens-swim':'수영복','womens-sets':'세트',
     'women-activity-dailywear':'데일리','women-activity-running':'러닝','womens-collections-we-made-too-much':'기타',
     'mens-short-sleeve-tops':'숏슬리브','mens-long-sleeve-tops':'롱슬리브','mens-t-shirts':'티셔츠',
     'mens-tank-tops':'탱크탑','mens-polo-shirts':'폴로','mens-shorts':'쇼츠','mens-tights':'타이츠',
@@ -238,19 +260,29 @@
     'mens-jackets-and-outerwear':'재킷·아우터','mens-hoodies-and-sweatshirts':'후디·스웻셔츠',
     'mens-underwear':'언더웨어','mens-collections-we-made-too-much':'기타',
     'bags':'가방','hats':'모자','hair-accessories':'헤어','water-bottles':'물병','equipment':'장비',
-    'accessories':'액세서리','gloves':'장갑','accessories-collections-we-made-too-much':'기타'
+    'accessories':'소품','gloves':'장갑','accessories-collections-we-made-too-much':'기타'
   };
   var GEN_LABEL = {w:'여성', m:'남성', a:'액세서리'};
+  var CH_LABEL = {o:'공식몰', m:'무신사'};
   var SIZES = ['6','8','M','L'];
-  var state = { th:70, kind:'', gen:'', szOnly:true, sz:'', cat:'', q:'', sort:'off', data:null };
+  var state = { th:70, ch:'', kind:'', gen:'', szOnly:true, sz:'', cat:'', q:'', sort:'off', data:null };
   var $ = function(id){ return document.getElementById(id); };
   var won = function(n){ return n.toLocaleString('ko-KR') + '원'; };
   var catLabel = function(c){ return CAT_LABEL[c] || '기타'; };
+  var sizeKeys = function(it){ return it.szk || it.sz || []; };
 
-  function imgUrl(base){ return 'https://images.lululemon.com/is/image/lululemon/' + base + '_1?size=400,400'; }
-  function productUrl(id){ return 'https://www.lululemon.co.kr/ko-kr/p/' + id + '.html'; }
+  function imgUrl(it){
+    var s = it.img || '';
+    return s.indexOf('http') === 0 ? s : ('https://images.lululemon.com/is/image/lululemon/' + s + '_1?size=400,400');
+  }
+  function productUrl(it){
+    return it.ch === 'm'
+      ? 'https://www.musinsa.com/products/' + it.id
+      : 'https://www.lululemon.co.kr/ko-kr/p/' + it.id + '.html';
+  }
 
   function passTh(it){ return state.th === 0 || it.off >= state.th; }
+  function passCh(it){ return !state.ch || it.ch === state.ch; }
   function passKind(it){
     if(!state.kind) return true;
     return state.kind === 'acc' ? it.gen === 'a' : it.gen !== 'a';
@@ -260,7 +292,7 @@
   function passSize(it){
     if(it.gen !== 'w') return true;
     if(!state.szOnly) return true;
-    var sz = it.sz || [];
+    var sz = sizeKeys(it);
     if(!sz.length) return false;
     if(state.sz) return sz.indexOf(state.sz) >= 0;
     return true;
@@ -271,9 +303,22 @@
     var q = state.q.toLowerCase();
     return it.name.toLowerCase().indexOf(q) >= 0 || catLabel(it.cat).toLowerCase().indexOf(q) >= 0;
   }
-  function base(it){ return passTh(it) && passKind(it) && passGen(it) && passSize(it) && passQ(it); }
+  function base(it){ return passTh(it) && passCh(it) && passKind(it) && passGen(it) && passSize(it) && passQ(it); }
 
   function countBy(fn){ var n=0; for(var i=0;i<state.data.length;i++) if(fn(state.data[i])) n++; return n; }
+
+  function chipBtn(label, n, on, cls, onClick){
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    if(cls) btn.className = cls;
+    btn.setAttribute('aria-pressed', String(!!on));
+    btn.appendChild(document.createTextNode(label));
+    if(n !== null && n !== undefined){
+      var s = document.createElement('span'); s.className='n'; s.textContent = n; btn.appendChild(s);
+    }
+    btn.addEventListener('click', onClick);
+    return btn;
+  }
 
   function renderTabs(){
     var boxes = [
@@ -281,7 +326,7 @@
     ];
     var wrap = $('tabs'); wrap.textContent = '';
     boxes.forEach(function(b){
-      var n = countBy(function(it){ return passKind(it) && passGen(it) && passSize(it) && (b.th === 0 || it.off >= b.th); });
+      var n = countBy(function(it){ return passCh(it) && passKind(it) && passGen(it) && passSize(it) && (b.th === 0 || it.off >= b.th); });
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.setAttribute('role','tab');
@@ -296,51 +341,52 @@
     });
   }
 
+  function renderChans(){
+    var opts = [{c:'', label:'전체'}, {c:'o', label:'공식몰'}, {c:'m', label:'무신사'}];
+    var wrap = $('chans'); wrap.textContent='';
+    var lbl = document.createElement('span'); lbl.className='lbl'; lbl.textContent='채널'; wrap.appendChild(lbl);
+    opts.forEach(function(o){
+      var n = countBy(function(it){
+        return (!o.c || it.ch === o.c) && passTh(it) && passKind(it) && passGen(it) && passSize(it) && passQ(it);
+      });
+      var btn = chipBtn(o.label, n, state.ch === o.c, 'chan', function(){
+        state.ch = o.c; state.cat=''; render();
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
   function renderKinds(){
-    var opts = [
-      {k:'', label:'전체'},
-      {k:'wear', label:'의류'},
-      {k:'acc', label:'액세서리'}
-    ];
     var wrap = $('kinds'); wrap.textContent='';
     var lbl = document.createElement('span'); lbl.className='lbl'; lbl.textContent='구분'; wrap.appendChild(lbl);
-    opts.forEach(function(o){
+    [{k:'', label:'전체'}, {k:'wear', label:'의류'}, {k:'acc', label:'액세서리'}].forEach(function(o){
       var n;
-      if(o.k === 'acc') n = countBy(function(it){ return it.gen === 'a' && passTh(it) && passGen(it) && passQ(it); });
-      else if(o.k === 'wear') n = countBy(function(it){ return it.gen !== 'a' && passTh(it) && passGen(it) && passSize(it) && passQ(it); });
-      else n = countBy(function(it){ return passTh(it) && passGen(it) && passSize(it) && passQ(it); });
-      var btn = document.createElement('button');
-      btn.type='button';
-      if(o.k === 'acc') btn.className = 'acc';
-      btn.setAttribute('aria-pressed', String(state.kind === o.k));
-      btn.textContent = o.label + ' ' + n;
-      btn.addEventListener('click', function(){
+      if(o.k === 'acc') n = countBy(function(it){ return it.gen === 'a' && passTh(it) && passCh(it) && passGen(it) && passQ(it); });
+      else if(o.k === 'wear') n = countBy(function(it){ return it.gen !== 'a' && passTh(it) && passCh(it) && passGen(it) && passSize(it) && passQ(it); });
+      else n = countBy(function(it){ return passTh(it) && passCh(it) && passGen(it) && passSize(it) && passQ(it); });
+      var btn = chipBtn(o.label, n, state.kind === o.k, o.k === 'acc' ? 'acc' : '', function(){
         state.kind = o.k; state.cat='';
         if(o.k === 'acc'){ state.gen = ''; }
         render();
       });
       wrap.appendChild(btn);
     });
-  }
 
-  function renderGens(){
-    var opts = [{g:'',label:'전체'},{g:'w',label:'여성'},{g:'m',label:'남성'}];
-    var wrap = $('gens'); wrap.textContent='';
-    var lbl = document.createElement('span'); lbl.className='lbl'; lbl.textContent='성별'; wrap.appendChild(lbl);
     if(state.kind === 'acc'){
-      var msg = document.createElement('span'); msg.className='lbl'; msg.textContent='액세서리는 성별 구분 없이 보여드려요';
-      wrap.appendChild(msg); return;
+      var note = document.createElement('span'); note.className='note'; note.textContent='액세서리는 성별·사이즈 구분 없이 보여드려요';
+      wrap.appendChild(note);
+      return;
     }
-    opts.forEach(function(o){
+
+    var div = document.createElement('span'); div.className='divider'; wrap.appendChild(div);
+    var glbl = document.createElement('span'); glbl.className='lbl'; glbl.textContent='성별'; wrap.appendChild(glbl);
+    [{g:'',label:'전체'},{g:'w',label:'여성'},{g:'m',label:'남성'}].forEach(function(o){
       var n = countBy(function(it){
-        return it.gen !== 'a' && (!o.g || it.gen === o.g) && passTh(it) && passSize(it) && passQ(it);
+        return it.gen !== 'a' && (!o.g || it.gen === o.g) && passTh(it) && passCh(it) && passSize(it) && passQ(it);
       });
-      var btn = document.createElement('button');
-      btn.type='button';
-      btn.setAttribute('aria-pressed', String(state.gen === o.g));
-      btn.textContent = o.label + ' ' + n;
-      btn.addEventListener('click', function(){ state.gen = o.g; state.cat=''; render(); });
-      wrap.appendChild(btn);
+      wrap.appendChild(chipBtn(o.label, n, state.gen === o.g, '', function(){
+        state.gen = o.g; state.cat=''; render();
+      }));
     });
   }
 
@@ -350,28 +396,23 @@
     wrap.hidden = !show;
     if(!show) return;
 
-    var mine = document.createElement('button');
-    mine.type='button'; mine.className='szmine';
-    var mineN = countBy(function(it){ return it.gen === 'w' && passTh(it) && (it.sz || []).length > 0 && passQ(it); });
-    mine.setAttribute('aria-pressed', String(state.szOnly));
-    mine.textContent = (state.szOnly ? '✓ ' : '') + '내 사이즈(6·8·M·L)만 ' + mineN;
-    mine.addEventListener('click', function(){ state.szOnly = !state.szOnly; render(); });
+    var mineN = countBy(function(it){ return it.gen === 'w' && sizeKeys(it).length > 0 && passTh(it) && passCh(it) && passQ(it); });
+    var mine = chipBtn((state.szOnly ? '✓ ' : '') + '내 사이즈(6·8·M·L)만', mineN, state.szOnly, 'szmine', function(){
+      state.szOnly = !state.szOnly; render();
+    });
     wrap.appendChild(mine);
 
     var div = document.createElement('span'); div.className='divider'; wrap.appendChild(div);
 
     SIZES.forEach(function(s){
-      var n = countBy(function(it){ return it.gen === 'w' && (it.sz || []).indexOf(s) >= 0 && passTh(it) && passQ(it); });
-      var btn = document.createElement('button');
-      btn.type='button';
-      btn.setAttribute('aria-pressed', String(state.sz === s));
-      btn.textContent = s + ' ' + n;
-      if(!n) btn.style.opacity = '.45';
-      btn.addEventListener('click', function(){
+      var label = s === '6' ? '6·S' : s;
+      var n = countBy(function(it){ return it.gen === 'w' && sizeKeys(it).indexOf(s) >= 0 && passTh(it) && passCh(it) && passQ(it); });
+      var btn = chipBtn(label, n, state.sz === s, '', function(){
         state.sz = (state.sz === s ? '' : s);
         if(state.sz) state.szOnly = true;
         render();
       });
+      if(!n) btn.style.opacity = '.45';
       wrap.appendChild(btn);
     });
   }
@@ -409,6 +450,7 @@
     var cb = document.createElement('b'); cb.textContent = list.length.toLocaleString('ko-KR');
     $('count').appendChild(cb);
     var bits = [];
+    if(state.ch) bits.push(CH_LABEL[state.ch]);
     if(state.gen === 'w' || (state.kind === 'wear' && state.gen !== 'm')) {
       bits.push(state.sz ? '사이즈 ' + state.sz : (state.szOnly ? '내 사이즈 6·8·M·L' : '사이즈 전체'));
     }
@@ -419,16 +461,17 @@
     var frag = document.createDocumentFragment();
     list.forEach(function(it){
       var a = document.createElement('a');
-      a.className = 'card'; a.href = productUrl(it.id);
+      a.className = 'card'; a.href = productUrl(it);
       a.target = '_blank'; a.rel = 'noopener';
 
       var thumb = document.createElement('div'); thumb.className = 'thumb';
       var img = document.createElement('img');
       img.loading = 'lazy'; img.decoding = 'async'; img.alt = it.name;
-      img.src = imgUrl(it.img);
+      img.src = imgUrl(it);
       img.addEventListener('error', function(){ img.style.visibility='hidden'; });
       var badge = document.createElement('span'); badge.className = badgeClass(it.off); badge.textContent = '-' + it.off + '%';
-      thumb.appendChild(img); thumb.appendChild(badge);
+      var src = document.createElement('span'); src.className = 'src' + (it.ch === 'm' ? ' m' : ''); src.textContent = CH_LABEL[it.ch] || '';
+      thumb.appendChild(img); thumb.appendChild(badge); thumb.appendChild(src);
 
       var body = document.createElement('div'); body.className = 'body';
       var nm = document.createElement('p'); nm.className='name'; nm.textContent = it.name;
@@ -436,7 +479,6 @@
       var sp = document.createElement('span'); sp.className='sale'; sp.textContent = won(it.sale);
       var lp = document.createElement('s'); lp.className='list'; lp.textContent = won(it.list);
       pr.appendChild(sp); pr.appendChild(lp);
-      var ct = document.createElement('p'); ct.className='cat'; ct.textContent = catLabel(it.cat) + ' · ' + GEN_LABEL[it.gen];
       body.appendChild(nm); body.appendChild(pr);
       if(it.gen === 'w' && it.sz && it.sz.length){
         var sb = document.createElement('span'); sb.className='szbadge';
@@ -444,7 +486,16 @@
         var em = document.createElement('em'); em.textContent = it.sz.join(' · ');
         sb.appendChild(em); body.appendChild(sb);
       }
+      var ct = document.createElement('p'); ct.className='cat';
+      ct.textContent = catLabel(it.cat) + ' · ' + GEN_LABEL[it.gen] + (it.n ? ' · ' + it.n + '색' : '');
       body.appendChild(ct);
+      if(it.alt){
+        var al = document.createElement('p'); al.className = 'altline' + (it.alt.sale < it.sale ? ' cheap' : '');
+        al.appendChild(document.createTextNode('↔ ' + (CH_LABEL[it.alt.ch] || '') + ' '));
+        var ab = document.createElement('b'); ab.textContent = won(it.alt.sale);
+        al.appendChild(ab);
+        body.appendChild(al);
+      }
 
       a.appendChild(thumb); a.appendChild(body);
       frag.appendChild(a);
@@ -456,9 +507,17 @@
       empty.hidden = false;
       empty.innerHTML = '';
       var t = document.createElement('b');
-      t.textContent = state.szOnly ? '내 사이즈로 주문 가능한 상품이 없어요' : '조건에 맞는 상품이 없어요';
-      empty.appendChild(t);
-      if(state.szOnly && state.gen === 'w'){
+      var allEmpty = countBy(function(it){ return base(it); }) === 0;
+      if(state.ch === 'm' && state.gen === 'm'){
+        t.textContent = '무신사에는 남성 상품을 담지 않았어요';
+        empty.appendChild(t);
+        var back1 = document.createElement('a'); back1.href='#';
+        back1.textContent = '공식몰 남성 보기';
+        back1.addEventListener('click', function(e){ e.preventDefault(); state.ch='o'; state.gen='m'; render(); });
+        empty.appendChild(back1);
+      } else if(state.szOnly && state.gen !== 'm'){
+        t.textContent = '내 사이즈로 주문 가능한 상품이 없어요';
+        empty.appendChild(t);
         empty.appendChild(document.createTextNode('사이즈 필터를 끄면 '));
         var off = document.createElement('a'); off.href='#';
         off.textContent='전체 사이즈 보기';
@@ -466,6 +525,8 @@
         empty.appendChild(off);
         empty.appendChild(document.createTextNode('로 볼 수 있어요.'));
       } else {
+        t.textContent = '조건에 맞는 상품이 없어요';
+        empty.appendChild(t);
         empty.appendChild(document.createTextNode('아래 탭에서 '));
         var a50 = document.createElement('a'); a50.href='#'; a50.textContent='50% 이상';
         a50.addEventListener('click', function(e){ e.preventDefault(); state.th=50; render(); });
@@ -481,15 +542,21 @@
     var st = window.__stats;
     var box = $('summary'); box.textContent='';
     if(!st) return;
-    var mk = function(label, n){ var s=document.createElement('span'); s.appendChild(document.createTextNode(label+' ')); var b=document.createElement('b'); b.textContent=n; s.appendChild(b); return s; };
+    var mk = function(label, n, cls){
+      var s = document.createElement('span'); if(cls) s.className = cls;
+      s.appendChild(document.createTextNode(label + ' '));
+      var b = document.createElement('b'); b.textContent = n; s.appendChild(b);
+      return s;
+    };
+    if(st.chO !== undefined) box.appendChild(mk('공식몰', st.chO, 'o'));
+    if(st.chM !== undefined) box.appendChild(mk('무신사', st.chM, 'm'));
     box.appendChild(mk('70%+', st.th70));
     box.appendChild(mk('50%+', st.th50));
     box.appendChild(mk('최고 할인', st.max + '%'));
-    if(st.wsz) box.appendChild(mk('내 사이즈(6·8·M·L) 여성 의류', st.wsz));
   }
 
   function render(){
-    renderKinds(); renderGens(); renderSizes(); renderTabs(); renderCats(); renderGrid();
+    renderKinds(); renderSizes(); renderTabs(); renderChans(); renderCats(); renderGrid();
   }
 
   $('q').addEventListener('input', function(e){ state.q = e.target.value.trim(); renderCats(); renderGrid(); });
@@ -514,13 +581,15 @@
         th70: (s.by_threshold && s.by_threshold['70']) || 0,
         th50: (s.by_threshold && s.by_threshold['50']) || 0,
         max: s.max_off || 0,
-        wsz: s.womens_with_size || 0
+        chO: s.by_channel ? s.by_channel.o : undefined,
+        chM: s.by_channel ? s.by_channel.m : undefined
       };
       renderSummary();
       state.th = (window.__stats.th70 > 0) ? 70 : 50;
       try {
         var params = new URLSearchParams(location.search);
         if(params.has('th')){ var t = parseInt(params.get('th'), 10); if([0,50,60,70].indexOf(t) >= 0) state.th = t; }
+        if(params.has('ch')){ var c = params.get('ch'); if(['o','m'].indexOf(c) >= 0) state.ch = c; }
         if(params.has('gen')){ var g = params.get('gen'); if(['w','m','a'].indexOf(g) >= 0){ state.gen = g; if(g==='a') state.kind='acc'; } }
         if(params.has('kind')){ var k = params.get('kind'); if(['wear','acc'].indexOf(k) >= 0) state.kind = k; }
         if(params.has('size')){ var z = params.get('size'); if(SIZES.indexOf(z) >= 0){ state.sz = z; state.szOnly = true; } }
