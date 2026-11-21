@@ -84,12 +84,12 @@
   .seg button.blank{color:#aeb4bd}
   .seg button.hot[aria-pressed="true"]{background:var(--red);border-color:var(--red)}
 
-  .chips{display:flex;gap:6px;align-items:center;overflow-x:auto;scrollbar-width:none;margin-top:6px}
+  .chips{display:flex;gap:5px;align-items:center;overflow-x:auto;scrollbar-width:none;margin-top:6px}
   .chips::-webkit-scrollbar{display:none}
   .chips .divider{flex:0 0 auto;width:1px;height:18px;background:var(--line);margin:0 2px}
   .chips button{
     flex:0 0 auto;font:inherit;font-size:12.5px;font-weight:600;
-    padding:4px 10px;border-radius:999px;border:1px solid var(--line);
+    padding:4px 9px;border-radius:999px;border:1px solid var(--line);
     background:#fff;color:#4b515b;cursor:pointer;white-space:nowrap;
   }
   .chips button .n{margin-left:4px;font-weight:600;color:#9aa1ab;font-size:11.5px}
@@ -220,7 +220,7 @@
   <div class="tools">
     <label class="search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-      <input id="q" type="search" placeholder="상품명 검색 (예: Align, 쇼츠)" autocomplete="off" enterkeyhint="search">
+      <input id="q" type="search" placeholder="상품명 검색" autocomplete="off" enterkeyhint="search">
     </label>
     <div class="sort" id="sort">
       <button type="button" data-sort="off" aria-pressed="true">할인율순</button>
@@ -359,7 +359,6 @@
 
   function renderKinds(){
     var wrap = $('kinds'); wrap.textContent='';
-    var lbl = document.createElement('span'); lbl.className='lbl'; lbl.textContent='구분'; wrap.appendChild(lbl);
     [{k:'', label:'전체'}, {k:'wear', label:'의류'}, {k:'acc', label:'액세서리'}].forEach(function(o){
       var n;
       if(o.k === 'acc') n = countBy(function(it){ return it.gen === 'a' && passTh(it) && passCh(it) && passGen(it) && passQ(it); });
