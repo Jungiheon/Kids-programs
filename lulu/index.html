@@ -349,7 +349,7 @@
       var t = document.createElement('b');
       t.textContent = state.th === 70 ? '지금은 70% 이상 상품이 없어요' : '조건에 맞는 상품이 없어요';
       empty.appendChild(t);
-      empty.appendChild(document.createTextNode('아래 탭에서 ');
+      empty.appendChild(document.createTextNode('아래 탭에서 '));
       var a50 = document.createElement('a'); a50.href='#'; a50.textContent='50% 이상'; 
       a50.addEventListener('click', function(e){ e.preventDefault(); state.th=50; render(); });
       empty.appendChild(a50);
