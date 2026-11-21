@@ -399,6 +399,16 @@
       };
       renderSummary();
       state.th = (window.__stats.th70 > 0) ? 70 : 50;
+      try {
+        var params = new URLSearchParams(location.search);
+        if(params.has('th')){ var t = parseInt(params.get('th'), 10); if([0,50,60,70].indexOf(t) >= 0) state.th = t; }
+        if(params.has('gen')){ var g = params.get('gen'); if(['w','m','a'].indexOf(g) >= 0) state.gen = g; }
+        if(params.has('q')){ state.q = (params.get('q') || '').trim(); $('q').value = state.q; }
+        if(params.get('sort') === 'price'){
+          state.sort = 'price';
+          Array.prototype.forEach.call($('sort').querySelectorAll('button'), function(x){ x.setAttribute('aria-pressed', String(x.dataset.sort === 'price')); });
+        }
+      } catch(e) {}
       render();
     })
     .catch(function(err){
