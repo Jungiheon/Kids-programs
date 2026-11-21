@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>룰루레몬 세일</title>
-<meta name="description" content="룰루레몬 '너무 많이 만들었어요' 할인 상품을 할인율 순으로 모아보기">
+<meta name="description" content="룰루레몬 '너무 많이 만들었어요' 할인 상품을 할인율 순으로, 내 사이즈(6·8·M·L) 주문 가능한 것만 모아보기">
 <meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -24,6 +24,8 @@
     --dark:#111318;
     --chip:#f1f2f4;
     --chip-on:#111318;
+    --green:#0f7a4a;
+    --green-bg:#e8f5ee;
   }
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html{-webkit-text-size-adjust:100%}
@@ -78,14 +80,18 @@
   .seg button.blank{color:#aeb4bd}
   .seg button.hot[aria-pressed="true"]{background:var(--red);border-color:var(--red)}
 
-  .chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-top:6px}
+  .chips{display:flex;gap:6px;align-items:center;overflow-x:auto;scrollbar-width:none;margin-top:6px}
   .chips::-webkit-scrollbar{display:none}
+  .chips .divider{flex:0 0 auto;width:1px;height:18px;background:var(--line);margin:0 2px}
   .chips button{
     flex:0 0 auto;font:inherit;font-size:12.5px;font-weight:600;
     padding:4px 10px;border-radius:999px;border:1px solid var(--line);
     background:#fff;color:#4b515b;cursor:pointer;white-space:nowrap;
   }
   .chips button[aria-pressed="true"]{background:#e9ebef;border-color:#d6d9df;color:var(--ink);font-weight:700}
+  .chips button.acc[aria-pressed="true"]{background:#eef2ff;border-color:#d6ddf7;color:#26327a}
+  .chips button.szmine[aria-pressed="true"]{background:var(--green-bg);border-color:#bfe3cf;color:var(--green)}
+  .chips .lbl{flex:0 0 auto;font-size:11.5px;font-weight:700;color:#9aa1ab;padding-right:1px}
 
   /* tools */
   .tools{display:flex;gap:8px;margin-top:10px}
@@ -148,6 +154,13 @@
   .sale{font-size:15px;font-weight:800;letter-spacing:-.02em}
   .list{font-size:12px;color:#9aa1ab;text-decoration:line-through}
   .cat{margin:0;font-size:11px;color:#9aa1ab}
+  .szbadge{
+    display:inline-flex;align-items:center;gap:4px;
+    font-size:11px;font-weight:800;letter-spacing:-.01em;
+    color:var(--green);background:var(--green-bg);border:1px solid #cfeada;
+    border-radius:6px;padding:2px 6px;
+  }
+  .szbadge em{font-style:normal;font-weight:700;color:#5b8a72}
 
   .empty{
     margin:36px 0;text-align:center;color:var(--muted);font-size:14px;line-height:1.6;
@@ -179,7 +192,9 @@
 
   <div class="bar">
     <div class="seg" id="tabs" role="tablist" aria-label="할인율"></div>
+    <div class="chips" id="kinds" aria-label="구분"></div>
     <div class="chips" id="gens" aria-label="성별"></div>
+    <div class="chips" id="sizes" aria-label="내 사이즈"></div>
   </div>
 
   <div class="tools">
@@ -201,6 +216,7 @@
 
   <footer class="foot">
     <div>* 표시 가격은 룰루레몬 코리아 공식 사이트의 판매가·정가이며, 실제 결제 금액과 재고는 공식 사이트에서 확인해 주세요.</div>
+    <div>* 여성 의류는 <b>6 · 8 · M · L</b> 중 지금 주문 가능한 사이즈만 표시합니다(기본값). 사이즈 재고는 상품 단위로 확인해 컬러에 따라 다를 수 있어요. 남성·액세서리에는 사이즈 필터를 적용하지 않습니다.</div>
     <div>업데이트 <span id="updated2">–</span> · <a href="https://www.lululemon.co.kr/ko-kr/c/womens-we-made-too-much" target="_blank" rel="noopener">여성</a> · <a href="https://www.lululemon.co.kr/ko-kr/c/mens-we-made-too-much" target="_blank" rel="noopener">남성</a> · <a href="https://www.lululemon.co.kr/ko-kr/c/accessories-we-made-too-much" target="_blank" rel="noopener">액세서리</a></div>
   </footer>
 </div>
@@ -225,7 +241,8 @@
     'accessories':'액세서리','gloves':'장갑','accessories-collections-we-made-too-much':'기타'
   };
   var GEN_LABEL = {w:'여성', m:'남성', a:'액세서리'};
-  var state = { th:70, gen:'', cat:'', q:'', sort:'off', data:null };
+  var SIZES = ['6','8','M','L'];
+  var state = { th:70, kind:'', gen:'', szOnly:true, sz:'', cat:'', q:'', sort:'off', data:null };
   var $ = function(id){ return document.getElementById(id); };
   var won = function(n){ return n.toLocaleString('ko-KR') + '원'; };
   var catLabel = function(c){ return CAT_LABEL[c] || '기타'; };
@@ -234,13 +251,27 @@
   function productUrl(id){ return 'https://www.lululemon.co.kr/ko-kr/p/' + id + '.html'; }
 
   function passTh(it){ return state.th === 0 || it.off >= state.th; }
+  function passKind(it){
+    if(!state.kind) return true;
+    return state.kind === 'acc' ? it.gen === 'a' : it.gen !== 'a';
+  }
   function passGen(it){ return !state.gen || it.gen === state.gen; }
+  /* 사이즈 필터는 여성 의류에만 적용. 남성·액세서리는 그대로 통과 */
+  function passSize(it){
+    if(it.gen !== 'w') return true;
+    if(!state.szOnly) return true;
+    var sz = it.sz || [];
+    if(!sz.length) return false;
+    if(state.sz) return sz.indexOf(state.sz) >= 0;
+    return true;
+  }
   function passCat(it){ return !state.cat || it.cat === state.cat; }
   function passQ(it){
     if(!state.q) return true;
     var q = state.q.toLowerCase();
     return it.name.toLowerCase().indexOf(q) >= 0 || catLabel(it.cat).toLowerCase().indexOf(q) >= 0;
   }
+  function base(it){ return passTh(it) && passKind(it) && passGen(it) && passSize(it) && passQ(it); }
 
   function countBy(fn){ var n=0; for(var i=0;i<state.data.length;i++) if(fn(state.data[i])) n++; return n; }
 
@@ -250,7 +281,7 @@
     ];
     var wrap = $('tabs'); wrap.textContent = '';
     boxes.forEach(function(b){
-      var n = countBy(function(it){ return passGen(it) && (b.th === 0 || it.off >= b.th); });
+      var n = countBy(function(it){ return passKind(it) && passGen(it) && passSize(it) && (b.th === 0 || it.off >= b.th); });
       var btn = document.createElement('button');
       btn.type = 'button';
       btn.setAttribute('role','tab');
@@ -265,11 +296,45 @@
     });
   }
 
-  function renderGens(){
-    var opts = [{g:'',label:'전체'},{g:'w',label:'여성'},{g:'m',label:'남성'},{g:'a',label:'액세서리'}];
-    var wrap = $('gens'); wrap.textContent='';
+  function renderKinds(){
+    var opts = [
+      {k:'', label:'전체'},
+      {k:'wear', label:'의류'},
+      {k:'acc', label:'액세서리'}
+    ];
+    var wrap = $('kinds'); wrap.textContent='';
+    var lbl = document.createElement('span'); lbl.className='lbl'; lbl.textContent='구분'; wrap.appendChild(lbl);
     opts.forEach(function(o){
-      var n = countBy(function(it){ return (!o.g || it.gen === o.g) && passTh(it); });
+      var n;
+      if(o.k === 'acc') n = countBy(function(it){ return it.gen === 'a' && passTh(it) && passGen(it) && passQ(it); });
+      else if(o.k === 'wear') n = countBy(function(it){ return it.gen !== 'a' && passTh(it) && passGen(it) && passSize(it) && passQ(it); });
+      else n = countBy(function(it){ return passTh(it) && passGen(it) && passSize(it) && passQ(it); });
+      var btn = document.createElement('button');
+      btn.type='button';
+      if(o.k === 'acc') btn.className = 'acc';
+      btn.setAttribute('aria-pressed', String(state.kind === o.k));
+      btn.textContent = o.label + ' ' + n;
+      btn.addEventListener('click', function(){
+        state.kind = o.k; state.cat='';
+        if(o.k === 'acc'){ state.gen = ''; }
+        render();
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
+  function renderGens(){
+    var opts = [{g:'',label:'전체'},{g:'w',label:'여성'},{g:'m',label:'남성'}];
+    var wrap = $('gens'); wrap.textContent='';
+    var lbl = document.createElement('span'); lbl.className='lbl'; lbl.textContent='성별'; wrap.appendChild(lbl);
+    if(state.kind === 'acc'){
+      var msg = document.createElement('span'); msg.className='lbl'; msg.textContent='액세서리는 성별 구분 없이 보여드려요';
+      wrap.appendChild(msg); return;
+    }
+    opts.forEach(function(o){
+      var n = countBy(function(it){
+        return it.gen !== 'a' && (!o.g || it.gen === o.g) && passTh(it) && passSize(it) && passQ(it);
+      });
       var btn = document.createElement('button');
       btn.type='button';
       btn.setAttribute('aria-pressed', String(state.gen === o.g));
@@ -279,8 +344,40 @@
     });
   }
 
+  function renderSizes(){
+    var wrap = $('sizes'); wrap.textContent='';
+    var show = state.kind !== 'acc' && state.gen !== 'm';
+    wrap.hidden = !show;
+    if(!show) return;
+
+    var mine = document.createElement('button');
+    mine.type='button'; mine.className='szmine';
+    var mineN = countBy(function(it){ return it.gen === 'w' && passTh(it) && (it.sz || []).length > 0 && passQ(it); });
+    mine.setAttribute('aria-pressed', String(state.szOnly));
+    mine.textContent = (state.szOnly ? '✓ ' : '') + '내 사이즈(6·8·M·L)만 ' + mineN;
+    mine.addEventListener('click', function(){ state.szOnly = !state.szOnly; render(); });
+    wrap.appendChild(mine);
+
+    var div = document.createElement('span'); div.className='divider'; wrap.appendChild(div);
+
+    SIZES.forEach(function(s){
+      var n = countBy(function(it){ return it.gen === 'w' && (it.sz || []).indexOf(s) >= 0 && passTh(it) && passQ(it); });
+      var btn = document.createElement('button');
+      btn.type='button';
+      btn.setAttribute('aria-pressed', String(state.sz === s));
+      btn.textContent = s + ' ' + n;
+      if(!n) btn.style.opacity = '.45';
+      btn.addEventListener('click', function(){
+        state.sz = (state.sz === s ? '' : s);
+        if(state.sz) state.szOnly = true;
+        render();
+      });
+      wrap.appendChild(btn);
+    });
+  }
+
   function renderCats(){
-    var pool = state.data.filter(function(it){ return passTh(it) && passGen(it) && passQ(it); });
+    var pool = state.data.filter(function(it){ return base(it); });
     var counts = {}; pool.forEach(function(it){ counts[it.cat] = (counts[it.cat]||0)+1; });
     var cats = Object.keys(counts).sort(function(a,b){ return counts[b]-counts[a]; });
     var wrap = $('cats'); wrap.textContent='';
@@ -302,7 +399,7 @@
   function badgeClass(off){ return off >= 70 ? 'badge hi' : (off >= 50 ? 'badge mid' : 'badge'); }
 
   function renderGrid(){
-    var list = state.data.filter(function(it){ return passTh(it) && passGen(it) && passCat(it) && passQ(it); });
+    var list = state.data.filter(function(it){ return base(it) && passCat(it); });
     list.sort(function(a,b){
       if(state.sort === 'price') return a.sale - b.sale || b.off - a.off;
       return b.off - a.off || a.sale - b.sale;
@@ -311,7 +408,12 @@
     $('count').innerHTML = '';
     var cb = document.createElement('b'); cb.textContent = list.length.toLocaleString('ko-KR');
     $('count').appendChild(cb);
-    $('count').appendChild(document.createTextNode('개 상품' + (state.q ? ' · "' + state.q + '" 검색' : '')));
+    var bits = [];
+    if(state.gen === 'w' || (state.kind === 'wear' && state.gen !== 'm')) {
+      bits.push(state.sz ? '사이즈 ' + state.sz : (state.szOnly ? '내 사이즈 6·8·M·L' : '사이즈 전체'));
+    }
+    if(state.q) bits.push('"' + state.q + '" 검색');
+    $('count').appendChild(document.createTextNode('개 상품' + (bits.length ? ' · ' + bits.join(' · ') : '')));
 
     var grid = $('grid'); grid.textContent = '';
     var frag = document.createDocumentFragment();
@@ -335,7 +437,14 @@
       var lp = document.createElement('s'); lp.className='list'; lp.textContent = won(it.list);
       pr.appendChild(sp); pr.appendChild(lp);
       var ct = document.createElement('p'); ct.className='cat'; ct.textContent = catLabel(it.cat) + ' · ' + GEN_LABEL[it.gen];
-      body.appendChild(nm); body.appendChild(pr); body.appendChild(ct);
+      body.appendChild(nm); body.appendChild(pr);
+      if(it.gen === 'w' && it.sz && it.sz.length){
+        var sb = document.createElement('span'); sb.className='szbadge';
+        sb.appendChild(document.createTextNode('주문가능'));
+        var em = document.createElement('em'); em.textContent = it.sz.join(' · ');
+        sb.appendChild(em); body.appendChild(sb);
+      }
+      body.appendChild(ct);
 
       a.appendChild(thumb); a.appendChild(body);
       frag.appendChild(a);
@@ -347,31 +456,40 @@
       empty.hidden = false;
       empty.innerHTML = '';
       var t = document.createElement('b');
-      t.textContent = state.th === 70 ? '지금은 70% 이상 상품이 없어요' : '조건에 맞는 상품이 없어요';
+      t.textContent = state.szOnly ? '내 사이즈로 주문 가능한 상품이 없어요' : '조건에 맞는 상품이 없어요';
       empty.appendChild(t);
-      empty.appendChild(document.createTextNode('아래 탭에서 '));
-      var a50 = document.createElement('a'); a50.href='#'; a50.textContent='50% 이상'; 
-      a50.addEventListener('click', function(e){ e.preventDefault(); state.th=50; render(); });
-      empty.appendChild(a50);
-      empty.appendChild(document.createTextNode(' 또는 전체를 눌러 보세요.'));
+      if(state.szOnly && state.gen === 'w'){
+        empty.appendChild(document.createTextNode('사이즈 필터를 끄면 '));
+        var off = document.createElement('a'); off.href='#';
+        off.textContent='전체 사이즈 보기';
+        off.addEventListener('click', function(e){ e.preventDefault(); state.szOnly=false; state.sz=''; render(); });
+        empty.appendChild(off);
+        empty.appendChild(document.createTextNode('로 볼 수 있어요.'));
+      } else {
+        empty.appendChild(document.createTextNode('아래 탭에서 '));
+        var a50 = document.createElement('a'); a50.href='#'; a50.textContent='50% 이상';
+        a50.addEventListener('click', function(e){ e.preventDefault(); state.th=50; render(); });
+        empty.appendChild(a50);
+        empty.appendChild(document.createTextNode(' 또는 전체를 눌러 보세요.'));
+      }
     } else {
       empty.hidden = true;
     }
   }
 
   function renderSummary(){
-    var st = (state.data.length && window.__stats) ? window.__stats : null;
+    var st = window.__stats;
     var box = $('summary'); box.textContent='';
     if(!st) return;
-    var mk = function(label, n){ var s=document.createElement('span'); s.innerHTML=''; s.appendChild(document.createTextNode(label+' ')); var b=document.createElement('b'); b.textContent=n; s.appendChild(b); return s; };
-    var n70 = st['th70'], n50 = st['th50'], mx = st['max'];
-    box.appendChild(mk('70%+', n70));
-    box.appendChild(mk('50%+', n50));
-    box.appendChild(mk('최고 할인', mx + '%'));
+    var mk = function(label, n){ var s=document.createElement('span'); s.appendChild(document.createTextNode(label+' ')); var b=document.createElement('b'); b.textContent=n; s.appendChild(b); return s; };
+    box.appendChild(mk('70%+', st.th70));
+    box.appendChild(mk('50%+', st.th50));
+    box.appendChild(mk('최고 할인', st.max + '%'));
+    if(st.wsz) box.appendChild(mk('내 사이즈(6·8·M·L) 여성 의류', st.wsz));
   }
 
   function render(){
-    renderTabs(); renderGens(); renderCats(); renderGrid();
+    renderKinds(); renderGens(); renderSizes(); renderTabs(); renderCats(); renderGrid();
   }
 
   $('q').addEventListener('input', function(e){ state.q = e.target.value.trim(); renderCats(); renderGrid(); });
@@ -395,14 +513,18 @@
       window.__stats = {
         th70: (s.by_threshold && s.by_threshold['70']) || 0,
         th50: (s.by_threshold && s.by_threshold['50']) || 0,
-        max: s.max_off || 0
+        max: s.max_off || 0,
+        wsz: s.womens_with_size || 0
       };
       renderSummary();
       state.th = (window.__stats.th70 > 0) ? 70 : 50;
       try {
         var params = new URLSearchParams(location.search);
         if(params.has('th')){ var t = parseInt(params.get('th'), 10); if([0,50,60,70].indexOf(t) >= 0) state.th = t; }
-        if(params.has('gen')){ var g = params.get('gen'); if(['w','m','a'].indexOf(g) >= 0) state.gen = g; }
+        if(params.has('gen')){ var g = params.get('gen'); if(['w','m','a'].indexOf(g) >= 0){ state.gen = g; if(g==='a') state.kind='acc'; } }
+        if(params.has('kind')){ var k = params.get('kind'); if(['wear','acc'].indexOf(k) >= 0) state.kind = k; }
+        if(params.has('size')){ var z = params.get('size'); if(SIZES.indexOf(z) >= 0){ state.sz = z; state.szOnly = true; } }
+        if(params.get('sz') === '0') state.szOnly = false;
         if(params.has('q')){ state.q = (params.get('q') || '').trim(); $('q').value = state.q; }
         if(params.get('sort') === 'price'){
           state.sort = 'price';
