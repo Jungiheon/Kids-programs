@@ -100,6 +100,7 @@
   .chips button.chan[aria-pressed="true"] .n{color:#c6cbd4}
   .chips button.acc[aria-pressed="true"]{background:#eef2ff;border-color:#d6ddf7;color:#26327a}
   .chips button.szmine[aria-pressed="true"]{background:var(--green-bg);border-color:#bfe3cf;color:var(--green)}
+  .chips button.na{opacity:.45;pointer-events:none}
   .chips .lbl{flex:0 0 auto;font-size:11.5px;font-weight:700;color:#9aa1ab;padding-right:1px}
   .chips .note{flex:0 0 auto;font-size:11.5px;color:#9aa1ab;padding-left:2px}
 
@@ -398,6 +399,7 @@
 
   function renderSizes(){
     var wrap = $('sizes'); wrap.textContent='';
+    var sMode = state.ch === 's';
     var show = state.kind !== 'acc' && state.gen !== 'm';
     wrap.hidden = !show;
     if(!show) return;
@@ -406,6 +408,7 @@
     var mine = chipBtn((state.szOnly ? '✓ ' : '') + '내 사이즈(6·8·M·L)만', mineN, state.szOnly, 'szmine', function(){
       state.szOnly = !state.szOnly; render();
     });
+    if(sMode) mine.classList.add('na');
     wrap.appendChild(mine);
 
     var div = document.createElement('span'); div.className='divider'; wrap.appendChild(div);
@@ -419,10 +422,11 @@
         render();
       });
       if(!n) btn.style.opacity = '.45';
+      if(sMode) btn.classList.add('na');
       wrap.appendChild(btn);
     });
 
-    if(state.ch === 's'){
+    if(sMode){
       var note = document.createElement('span'); note.className = 'note';
       note.textContent = '신세계몰은 사이즈 재고를 상품페이지에서 확인해야 해요';
       wrap.appendChild(note);
@@ -510,7 +514,8 @@
         var sq = document.createElement('span'); sq.className='szbadge q';
         sq.appendChild(document.createTextNode('사이즈 확인'));
         var eq = document.createElement('em');
-        eq.textContent = (it.inv ? '재고 ' + it.inv : 'SSG');
+        var inv = it.inv;
+        eq.textContent = inv ? (inv <= 5 ? '재고 ' + inv : '재고 있음') : '재고 확인';
         sq.appendChild(eq); body.appendChild(sq);
       }
       var ct = document.createElement('p'); ct.className='cat';
