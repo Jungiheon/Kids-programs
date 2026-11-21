@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>룰루레몬 세일 · 공식몰+무신사</title>
-<meta name="description" content="룰루레몬 '너무 많이 만들었어요' 할인 상품을 공식몰과 무신사에서 함께, 할인율 순으로. 여성 의류는 내 사이즈(6·8·M·L) 주문 가능한 것만 모아보기">
+<title>룰루레몬 세일 · 공식몰+무신사+신세계몰</title>
+<meta name="description" content="룰루레몬 '너무 많이 만들었어요' 할인 상품을 공식몰·무신사·신세계몰에서 함께, 할인율 순으로. 여성 의류는 내 사이즈(6·8·M·L) 주문 가능한 것만 모아보기">
 <meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -61,6 +61,7 @@
   .summary span b{color:var(--red)}
   .summary span.m b{color:#111318}
   .summary span.o b{color:#6b7280}
+  .summary span.s b{color:#c8102e}
 
   /* sticky filter bar */
   .bar{
@@ -160,6 +161,7 @@
     border-radius:6px;padding:2px 6px;border:1px solid rgba(17,19,24,.08);
   }
   .src.m{background:#111318;color:#fff;border-color:#111318}
+  .src.s{background:#c8102e;color:#fff;border-color:#c8102e}
   .body{padding:8px 9px 10px;display:flex;flex-direction:column;gap:5px}
   .name{
     margin:0;font-size:12.8px;line-height:1.35;font-weight:600;color:#22252b;
@@ -177,6 +179,8 @@
     border-radius:6px;padding:2px 6px;
   }
   .szbadge em{font-style:normal;font-weight:700;color:#5b8a72}
+  .szbadge.q{color:#6b7280;background:#f1f2f4;border-color:#e3e5e9}
+  .szbadge.q em{color:#8a9099}
   .altline{margin:0;font-size:10.5px;color:#9aa1ab;display:flex;align-items:center;gap:4px}
   .altline b{font-weight:800;color:#6b7280}
   .altline.cheap b{color:var(--green)}
@@ -200,7 +204,7 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="eyebrow">We Made Too Much <span class="plus">+ 무신사</span></div>
+    <div class="eyebrow">We Made Too Much <span class="plus">+ 무신사 + 신세계몰</span></div>
     <h1>룰루레몬 세일</h1>
     <p class="meta">
       <span id="updated">불러오는 중…</span>
@@ -235,11 +239,12 @@
   <div class="empty" id="empty" hidden></div>
 
   <footer class="foot">
-    <div>* 가격은 <b>룰루레몬 공식몰</b>과 <b>무신사 룰루레몬 공식 브랜드숍</b>의 표시가이며, 실제 결제 금액과 재고는 각 상품 페이지에서 확인해 주세요.</div>
+    <div>* 가격은 <b>룰루레몬 공식몰</b>, <b>무신사 룰루레몬 공식 브랜드숍</b>, <b>신세계몰(SSG.COM) 룰루레몬 본사직영</b>의 표시가이며, 실제 결제 금액과 재고는 각 상품 페이지에서 확인해 주세요.</div>
     <div>* 여성 의류는 <b>6 · 8 · M · L</b> 중 지금 주문 가능한 사이즈만 표시합니다(기본값). 무신사는 표준 사이즈 <b>S · M · L</b>을 6 · 8 · L에 대응해 판정했어요. 남성·액세서리에는 사이즈 필터를 적용하지 않습니다.</div>
-    <div>* 무신사는 <b>30% 이상 할인</b>된 여성 의류(내 사이즈 재고 있음)·액세서리만 담았습니다. 공식몰은 '너무 많이 만들었어요' 전체입니다.</div>
+    <div>* <b>신세계몰</b>은 SSG 상품페이지에만 사이즈 옵션 재고가 있어 앱에서는 확인할 수 없어요. 그래서 신세계몰 상품은 <b>사이즈 확인</b> 표시와 함께 전체 재고 수량만 보여주고, 기본 '내 사이즈만' 목록에서는 빠집니다(신세계몰 칩을 누르면 보여요).</div>
+    <div>* 무신사는 <b>30% 이상 할인</b>된 여성 의류(내 사이즈 재고 있음)·액세서리만, 신세계몰은 <b>본사직영·정품 중 30% 이상 할인</b> 상품만 담았습니다. 공식몰은 '너무 많이 만들었어요' 전체입니다.</div>
     <div>* <b>↔</b> 는 같은 상품이 다른 채널에도 있을 때의 그 채널 가격입니다(상품명 기준, 색상·옵션에 따라 다를 수 있어요).</div>
-    <div>업데이트 <span id="updated2">–</span> · <a href="https://www.lululemon.co.kr/ko-kr/c/womens-we-made-too-much" target="_blank" rel="noopener">공식몰 여성</a> · <a href="https://www.lululemon.co.kr/ko-kr/c/accessories-we-made-too-much" target="_blank" rel="noopener">공식몰 액세서리</a> · <a href="https://www.musinsa.com/brand/lululemon" target="_blank" rel="noopener">무신사 룰루레몬</a></div>
+    <div>업데이트 <span id="updated2">–</span> · <a href="https://www.lululemon.co.kr/ko-kr/c/womens-we-made-too-much" target="_blank" rel="noopener">공식몰 여성</a> · <a href="https://www.lululemon.co.kr/ko-kr/c/accessories-we-made-too-much" target="_blank" rel="noopener">공식몰 액세서리</a> · <a href="https://www.musinsa.com/brand/lululemon" target="_blank" rel="noopener">무신사 룰루레몬</a> · <a href="https://www.ssg.com/search.ssg?target=all&query=%EB%A3%B0%EB%A3%A8%EB%A0%88%EB%AA%AC" target="_blank" rel="noopener">신세계몰 룰루레몬</a></div>
   </footer>
 </div>
 
@@ -264,7 +269,7 @@
     'accessories':'소품','gloves':'장갑','accessories-collections-we-made-too-much':'기타'
   };
   var GEN_LABEL = {w:'여성', m:'남성', a:'액세서리'};
-  var CH_LABEL = {o:'공식몰', m:'무신사'};
+  var CH_LABEL = {o:'공식몰', m:'무신사', s:'신세계몰'};
   var SIZES = ['6','8','M','L'];
   var state = { th:70, ch:'', kind:'', gen:'', szOnly:true, sz:'', cat:'', q:'', sort:'off', data:null };
   var $ = function(id){ return document.getElementById(id); };
@@ -277,9 +282,9 @@
     return s.indexOf('http') === 0 ? s : ('https://images.lululemon.com/is/image/lululemon/' + s + '_1?size=400,400');
   }
   function productUrl(it){
-    return it.ch === 'm'
-      ? 'https://www.musinsa.com/products/' + it.id
-      : 'https://www.lululemon.co.kr/ko-kr/p/' + it.id + '.html';
+    if(it.ch === 'm') return 'https://www.musinsa.com/products/' + it.id;
+    if(it.ch === 's') return it.url || ('https://www.ssg.com/item/itemView.ssg?itemId=' + it.id);
+    return 'https://www.lululemon.co.kr/ko-kr/p/' + it.id + '.html';
   }
 
   function passTh(it){ return state.th === 0 || it.off >= state.th; }
@@ -290,11 +295,13 @@
   }
   function passGen(it){ return !state.gen || it.gen === state.gen; }
   /* 사이즈 필터는 여성 의류에만 적용. 남성·액세서리는 그대로 통과 */
+  /* 신세계몰은 사이즈 옵션 재고를 밖에서 볼 수 없어(SG 상품페이지에서만 확인)
+     szu 표시가 있는 상품은 '신세계몰' 채널을 직접 골랐을 때만 사이즈 필터를 통과시킨다. */
   function passSize(it){
     if(it.gen !== 'w') return true;
     if(!state.szOnly) return true;
     var sz = sizeKeys(it);
-    if(!sz.length) return false;
+    if(!sz.length) return it.szu ? (state.ch === 's') : false;
     if(state.sz) return sz.indexOf(state.sz) >= 0;
     return true;
   }
@@ -343,7 +350,7 @@
   }
 
   function renderChans(){
-    var opts = [{c:'', label:'전체'}, {c:'o', label:'공식몰'}, {c:'m', label:'무신사'}];
+    var opts = [{c:'', label:'전체'}, {c:'o', label:'공식몰'}, {c:'m', label:'무신사'}, {c:'s', label:'신세계몰'}];
     var wrap = $('chans'); wrap.textContent='';
     var lbl = document.createElement('span'); lbl.className='lbl'; lbl.textContent='채널'; wrap.appendChild(lbl);
     opts.forEach(function(o){
@@ -414,6 +421,12 @@
       if(!n) btn.style.opacity = '.45';
       wrap.appendChild(btn);
     });
+
+    if(state.ch === 's'){
+      var note = document.createElement('span'); note.className = 'note';
+      note.textContent = '신세계몰은 사이즈 재고를 상품페이지에서 확인해야 해요';
+      wrap.appendChild(note);
+    }
   }
 
   function renderCats(){
@@ -455,6 +468,12 @@
     }
     if(state.q) bits.push('"' + state.q + '" 검색');
     $('count').appendChild(document.createTextNode('개 상품' + (bits.length ? ' · ' + bits.join(' · ') : '')));
+    if(state.szOnly && state.ch !== 's' && window.__stats && window.__stats.chS){
+      var hint = document.createElement('span');
+      hint.style.color = '#9aa1ab';
+      hint.textContent = ' · 신세계몰 ' + window.__stats.chS + '건은 사이즈 미확인이라 빠짐';
+      $('count').appendChild(hint);
+    }
 
     var grid = $('grid'); grid.textContent = '';
     var frag = document.createDocumentFragment();
@@ -469,32 +488,42 @@
       img.src = imgUrl(it);
       img.addEventListener('error', function(){ img.style.visibility='hidden'; });
       var badge = document.createElement('span'); badge.className = badgeClass(it.off); badge.textContent = '-' + it.off + '%';
-      var src = document.createElement('span'); src.className = 'src' + (it.ch === 'm' ? ' m' : ''); src.textContent = CH_LABEL[it.ch] || '';
+      var src = document.createElement('span'); src.className = 'src' + (it.ch === 'm' ? ' m' : (it.ch === 's' ? ' s' : '')); src.textContent = CH_LABEL[it.ch] || '';
       thumb.appendChild(img); thumb.appendChild(badge); thumb.appendChild(src);
 
       var body = document.createElement('div'); body.className = 'body';
       var nm = document.createElement('p'); nm.className='name'; nm.textContent = it.name;
       var pr = document.createElement('p'); pr.className='prices';
       var sp = document.createElement('span'); sp.className='sale'; sp.textContent = won(it.sale);
-      var lp = document.createElement('s'); lp.className='list'; lp.textContent = won(it.list);
-      pr.appendChild(sp); pr.appendChild(lp);
+      pr.appendChild(sp);
+      if(it.list && it.list > it.sale){
+        var lp = document.createElement('s'); lp.className='list'; lp.textContent = won(it.list);
+        pr.appendChild(lp);
+      }
       body.appendChild(nm); body.appendChild(pr);
       if(it.gen === 'w' && it.sz && it.sz.length){
         var sb = document.createElement('span'); sb.className='szbadge';
         sb.appendChild(document.createTextNode('주문가능'));
         var em = document.createElement('em'); em.textContent = it.sz.join(' · ');
         sb.appendChild(em); body.appendChild(sb);
+      } else if(it.szu){
+        var sq = document.createElement('span'); sq.className='szbadge q';
+        sq.appendChild(document.createTextNode('사이즈 확인'));
+        var eq = document.createElement('em');
+        eq.textContent = (it.inv ? '재고 ' + it.inv : 'SSG');
+        sq.appendChild(eq); body.appendChild(sq);
       }
       var ct = document.createElement('p'); ct.className='cat';
       ct.textContent = catLabel(it.cat) + ' · ' + GEN_LABEL[it.gen] + (it.n ? ' · ' + it.n + '색' : '');
       body.appendChild(ct);
-      if(it.alt){
-        var al = document.createElement('p'); al.className = 'altline' + (it.alt.sale < it.sale ? ' cheap' : '');
-        al.appendChild(document.createTextNode('↔ ' + (CH_LABEL[it.alt.ch] || '') + ' '));
-        var ab = document.createElement('b'); ab.textContent = won(it.alt.sale);
+      var alts = it.alts || (it.alt ? [it.alt] : []);
+      alts.forEach(function(a){
+        var al = document.createElement('p'); al.className = 'altline' + (a.sale < it.sale ? ' cheap' : '');
+        al.appendChild(document.createTextNode('↔ ' + (CH_LABEL[a.ch] || '') + ' '));
+        var ab = document.createElement('b'); ab.textContent = won(a.sale);
         al.appendChild(ab);
         body.appendChild(al);
-      }
+      });
 
       a.appendChild(thumb); a.appendChild(body);
       frag.appendChild(a);
@@ -514,6 +543,15 @@
         back1.textContent = '공식몰 남성 보기';
         back1.addEventListener('click', function(e){ e.preventDefault(); state.ch='o'; state.gen='m'; render(); });
         empty.appendChild(back1);
+      } else if(state.ch === 's' && state.szOnly && state.gen !== 'm' && state.kind !== 'acc'){
+        t.textContent = '신세계몰은 사이즈 재고를 앱에서 볼 수 없어요';
+        empty.appendChild(t);
+        empty.appendChild(document.createTextNode('상품페이지에서 사이즈를 직접 확인해야 해서, '));
+        var off2 = document.createElement('a'); off2.href='#';
+        off2.textContent='사이즈 필터를 끄면';
+        off2.addEventListener('click', function(e){ e.preventDefault(); state.szOnly=false; state.sz=''; render(); });
+        empty.appendChild(off2);
+        empty.appendChild(document.createTextNode(' 신세계몰 할인 상품이 보여요.'));
       } else if(state.szOnly && state.gen !== 'm'){
         t.textContent = '내 사이즈로 주문 가능한 상품이 없어요';
         empty.appendChild(t);
@@ -549,6 +587,7 @@
     };
     if(st.chO !== undefined) box.appendChild(mk('공식몰', st.chO, 'o'));
     if(st.chM !== undefined) box.appendChild(mk('무신사', st.chM, 'm'));
+    if(st.chS !== undefined) box.appendChild(mk('신세계몰', st.chS, 's'));
     box.appendChild(mk('70%+', st.th70));
     box.appendChild(mk('50%+', st.th50));
     box.appendChild(mk('최고 할인', st.max + '%'));
@@ -581,14 +620,15 @@
         th50: (s.by_threshold && s.by_threshold['50']) || 0,
         max: s.max_off || 0,
         chO: s.by_channel ? s.by_channel.o : undefined,
-        chM: s.by_channel ? s.by_channel.m : undefined
+        chM: s.by_channel ? s.by_channel.m : undefined,
+        chS: s.by_channel ? s.by_channel.s : undefined
       };
       renderSummary();
       state.th = (window.__stats.th70 > 0) ? 70 : 50;
       try {
         var params = new URLSearchParams(location.search);
         if(params.has('th')){ var t = parseInt(params.get('th'), 10); if([0,50,60,70].indexOf(t) >= 0) state.th = t; }
-        if(params.has('ch')){ var c = params.get('ch'); if(['o','m'].indexOf(c) >= 0) state.ch = c; }
+        if(params.has('ch')){ var c = params.get('ch'); if(['o','m','s'].indexOf(c) >= 0) state.ch = c; }
         if(params.has('gen')){ var g = params.get('gen'); if(['w','m','a'].indexOf(g) >= 0){ state.gen = g; if(g==='a') state.kind='acc'; } }
         if(params.has('kind')){ var k = params.get('kind'); if(['wear','acc'].indexOf(k) >= 0) state.kind = k; }
         if(params.has('size')){ var z = params.get('size'); if(SIZES.indexOf(z) >= 0){ state.sz = z; state.szOnly = true; } }
