@@ -1,0 +1,19 @@
+{
+  "name": "룰루레몬 세일",
+  "short_name": "룰루 세일",
+  "description": "룰루레몬 '너무 많이 만들었어요' 할인 상품을 할인율 순으로 모아보기",
+  "lang": "ko",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f6f6f7",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "../apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

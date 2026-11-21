@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>룰루레몬 세일</title>
+<meta name="description" content="룰루레몬 '너무 많이 만들었어요' 할인 상품을 할인율 순으로 모아보기">
+<meta name="theme-color" content="#ffffff">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="룰루 세일">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<style>
+  :root{
+    --ink:#14161a;
+    --muted:#6b7280;
+    --line:#e8eaee;
+    --bg:#f6f6f7;
+    --card:#fff;
+    --red:#e11d48;
+    --red-bg:#fdeef1;
+    --dark:#111318;
+    --chip:#f1f2f4;
+    --chip-on:#111318;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Pretendard","Noto Sans KR","Malgun Gothic",system-ui,sans-serif;
+    font-size:16px;line-height:1.45;
+    padding-bottom:calc(28px + env(safe-area-inset-bottom));
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:0 12px}
+
+  /* header */
+  header.top{padding-top:calc(14px + env(safe-area-inset-top));padding-bottom:2px}
+  header.top .eyebrow{
+    display:flex;align-items:center;gap:6px;
+    font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--red);
+  }
+  header.top h1{margin:2px 0 0;font-size:22px;font-weight:800;letter-spacing:-.02em}
+  header.top .meta{
+    margin:5px 0 0;font-size:12.5px;color:var(--muted);
+    display:flex;flex-wrap:wrap;gap:3px 8px;align-items:center;
+  }
+  header.top .meta .dot{color:#c9ced6}
+  .summary{
+    margin:10px 0 0;display:flex;gap:6px;flex-wrap:wrap;
+  }
+  .summary span{
+    font-size:12px;font-weight:700;color:#3d424b;background:#fff;
+    border:1px solid var(--line);border-radius:999px;padding:4px 9px;
+  }
+  .summary span b{color:var(--red)}
+
+  /* sticky filter bar */
+  .bar{
+    position:sticky;top:0;z-index:30;
+    background:rgba(246,246,247,.97);
+    backdrop-filter:saturate(180%) blur(8px);
+    -webkit-backdrop-filter:saturate(180%) blur(8px);
+    border-bottom:1px solid var(--line);
+    padding:8px 12px 7px;margin:10px -12px 0;
+  }
+  .seg{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none}
+  .seg::-webkit-scrollbar{display:none}
+  .seg button{
+    flex:0 0 auto;font:inherit;font-size:13.5px;font-weight:700;
+    padding:7px 12px;border-radius:10px;border:1px solid var(--line);
+    background:#fff;color:#3d424b;cursor:pointer;white-space:nowrap;
+  }
+  .seg button .n{margin-left:4px;font-weight:600;color:var(--muted);font-size:12px}
+  .seg button[aria-pressed="true"]{background:var(--chip-on);border-color:var(--chip-on);color:#fff}
+  .seg button[aria-pressed="true"] .n{color:#cbd0d8}
+  .seg button.blank{color:#aeb4bd}
+  .seg button.hot[aria-pressed="true"]{background:var(--red);border-color:var(--red)}
+
+  .chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-top:6px}
+  .chips::-webkit-scrollbar{display:none}
+  .chips button{
+    flex:0 0 auto;font:inherit;font-size:12.5px;font-weight:600;
+    padding:4px 10px;border-radius:999px;border:1px solid var(--line);
+    background:#fff;color:#4b515b;cursor:pointer;white-space:nowrap;
+  }
+  .chips button[aria-pressed="true"]{background:#e9ebef;border-color:#d6d9df;color:var(--ink);font-weight:700}
+
+  /* tools */
+  .tools{display:flex;gap:8px;margin-top:10px}
+  .search{
+    flex:1 1 auto;display:flex;align-items:center;gap:7px;
+    background:#fff;border:1px solid var(--line);border-radius:11px;padding:0 10px;
+  }
+  .search svg{flex:0 0 auto;opacity:.45}
+  .search input{
+    flex:1 1 auto;border:0;background:transparent;font:inherit;font-size:14.5px;
+    padding:10px 0;color:var(--ink);min-width:0;
+  }
+  .search input:focus{outline:none}
+  .sort{
+    flex:0 0 auto;display:flex;background:#fff;border:1px solid var(--line);
+    border-radius:11px;overflow:hidden;
+  }
+  .sort button{
+    font:inherit;font-size:12.5px;font-weight:700;padding:0 10px;border:0;
+    background:transparent;color:#6b7280;cursor:pointer;white-space:nowrap;
+  }
+  .sort button[aria-pressed="true"]{background:#111318;color:#fff}
+
+  .cats{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-top:8px;padding-bottom:2px}
+  .cats::-webkit-scrollbar{display:none}
+  .cats button{
+    flex:0 0 auto;font:inherit;font-size:12.5px;font-weight:600;padding:6px 11px;
+    border-radius:9px;border:1px solid var(--line);background:#fff;color:#4b515b;cursor:pointer;
+  }
+  .cats button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+
+  /* grid */
+  .count{margin:12px 0 8px;font-size:12.5px;color:var(--muted)}
+  .count b{color:var(--ink);font-size:13px}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  @media (min-width:560px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  .card{
+    display:flex;flex-direction:column;background:var(--card);border-radius:14px;
+    overflow:hidden;text-decoration:none;color:inherit;border:1px solid var(--line);
+    box-shadow:0 1px 2px rgba(17,19,24,.04);
+  }
+  .card:active{transform:scale(.995)}
+  .thumb{position:relative;aspect-ratio:1/1;background:#f0f1f3;overflow:hidden}
+  .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+  .badge{
+    position:absolute;left:8px;top:8px;
+    font-size:12.5px;font-weight:800;letter-spacing:-.01em;
+    color:#fff;background:var(--dark);border-radius:7px;padding:3px 7px;
+    box-shadow:0 1px 4px rgba(0,0,0,.18);
+  }
+  .badge.hi{background:var(--red)}
+  .badge.mid{background:#d9480f}
+  .body{padding:8px 9px 10px;display:flex;flex-direction:column;gap:5px}
+  .name{
+    margin:0;font-size:12.8px;line-height:1.35;font-weight:600;color:#22252b;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+    min-height:2.7em;
+  }
+  .prices{margin:0;display:flex;align-items:baseline;gap:5px;flex-wrap:wrap}
+  .sale{font-size:15px;font-weight:800;letter-spacing:-.02em}
+  .list{font-size:12px;color:#9aa1ab;text-decoration:line-through}
+  .cat{margin:0;font-size:11px;color:#9aa1ab}
+
+  .empty{
+    margin:36px 0;text-align:center;color:var(--muted);font-size:14px;line-height:1.6;
+  }
+  .empty b{display:block;color:var(--ink);font-size:15px;margin-bottom:6px}
+  .empty a{color:var(--red);font-weight:700;text-decoration:none}
+
+  footer.foot{
+    margin-top:26px;padding-top:14px;border-top:1px solid var(--line);
+    font-size:11.5px;color:#9aa1ab;line-height:1.7;
+  }
+  footer.foot a{color:#6b7280}
+  .skeleton{background:linear-gradient(90deg,#eef0f2,#f6f7f8,#eef0f2);background-size:200% 100%;animation:sk 1.2s infinite}
+  @keyframes sk{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="eyebrow">We Made Too Much</div>
+    <h1>룰루레몬 세일</h1>
+    <p class="meta">
+      <span id="updated">불러오는 중…</span>
+      <span class="dot">·</span>
+      <span id="total">–</span>
+    </p>
+    <div class="summary" id="summary"></div>
+  </header>
+
+  <div class="bar">
+    <div class="seg" id="tabs" role="tablist" aria-label="할인율"></div>
+    <div class="chips" id="gens" aria-label="성별"></div>
+  </div>
+
+  <div class="tools">
+    <label class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#111" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+      <input id="q" type="search" placeholder="상품명 검색 (예: Align, 쇼츠)" autocomplete="off" enterkeyhint="search">
+    </label>
+    <div class="sort" id="sort">
+      <button type="button" data-sort="off" aria-pressed="true">할인율순</button>
+      <button type="button" data-sort="price" aria-pressed="false">가격순</button>
+    </div>
+  </div>
+
+  <div class="cats" id="cats"></div>
+
+  <p class="count" id="count"></p>
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" hidden></div>
+
+  <footer class="foot">
+    <div>* 표시 가격은 룰루레몬 코리아 공식 사이트의 판매가·정가이며, 실제 결제 금액과 재고는 공식 사이트에서 확인해 주세요.</div>
+    <div>업데이트 <span id="updated2">–</span> · <a href="https://www.lululemon.co.kr/ko-kr/c/womens-we-made-too-much" target="_blank" rel="noopener">여성</a> · <a href="https://www.lululemon.co.kr/ko-kr/c/mens-we-made-too-much" target="_blank" rel="noopener">남성</a> · <a href="https://www.lululemon.co.kr/ko-kr/c/accessories-we-made-too-much" target="_blank" rel="noopener">액세서리</a></div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var CAT_LABEL = {
+    'womens-leggings':'레깅스·타이츠','womens-tank-tops':'탱크탑','womens-short-sleeve-tops':'숏슬리브',
+    'womens-long-sleeve-tops':'롱슬리브','womens-shorts':'쇼츠','womens-casual-pants':'캐주얼 팬츠',
+    'womens-joggers':'조거','womens-sweatpants':'스웻팬츠','womens-cropped-bottoms':'크롭 팬츠',
+    'womens-skirts':'스커트','womens-dresses':'드레스','womens-jackets-and-outerwear':'재킷·아우터',
+    'womens-hoodies-and-sweatshirts':'후디·스웻셔츠','w-wmtm-hoodies-and-sweatshirts':'후디·스웻셔츠',
+    'womens-sports-bras':'스포츠브라','womens-underwear':'언더웨어','womens-t-shirts':'티셔츠',
+    'womens-tops':'탑','womens-shoes':'슈즈','womens-socks':'양말','womens-dresses ':'드레스',
+    'women-activity-dailywear':'데일리','women-activity-running':'러닝','womens-collections-we-made-too-much':'기타',
+    'mens-short-sleeve-tops':'숏슬리브','mens-long-sleeve-tops':'롱슬리브','mens-t-shirts':'티셔츠',
+    'mens-tank-tops':'탱크탑','mens-polo-shirts':'폴로','mens-shorts':'쇼츠','mens-tights':'타이츠',
+    'mens-casual-pants':'팬츠','mens-joggers':'조거','mens-sweatpants':'스웻팬츠',
+    'mens-jackets-and-outerwear':'재킷·아우터','mens-hoodies-and-sweatshirts':'후디·스웻셔츠',
+    'mens-underwear':'언더웨어','mens-collections-we-made-too-much':'기타',
+    'bags':'가방','hats':'모자','hair-accessories':'헤어','water-bottles':'물병','equipment':'장비',
+    'accessories':'액세서리','gloves':'장갑','accessories-collections-we-made-too-much':'기타'
+  };
+  var GEN_LABEL = {w:'여성', m:'남성', a:'액세서리'};
+  var state = { th:70, gen:'', cat:'', q:'', sort:'off', data:null };
+  var $ = function(id){ return document.getElementById(id); };
+  var won = function(n){ return n.toLocaleString('ko-KR') + '원'; };
+  var catLabel = function(c){ return CAT_LABEL[c] || '기타'; };
+
+  function imgUrl(base){ return 'https://images.lululemon.com/is/image/lululemon/' + base + '_1?size=400,400'; }
+  function productUrl(id){ return 'https://www.lululemon.co.kr/ko-kr/p/' + id + '.html'; }
+
+  function passTh(it){ return state.th === 0 || it.off >= state.th; }
+  function passGen(it){ return !state.gen || it.gen === state.gen; }
+  function passCat(it){ return !state.cat || it.cat === state.cat; }
+  function passQ(it){
+    if(!state.q) return true;
+    var q = state.q.toLowerCase();
+    return it.name.toLowerCase().indexOf(q) >= 0 || catLabel(it.cat).toLowerCase().indexOf(q) >= 0;
+  }
+
+  function countBy(fn){ var n=0; for(var i=0;i<state.data.length;i++) if(fn(state.data[i])) n++; return n; }
+
+  function renderTabs(){
+    var boxes = [
+      {th:70, label:'70%+'}, {th:60, label:'60%+'}, {th:50, label:'50%+'}, {th:0, label:'전체'}
+    ];
+    var wrap = $('tabs'); wrap.textContent = '';
+    boxes.forEach(function(b){
+      var n = countBy(function(it){ return passGen(it) && (b.th === 0 || it.off >= b.th); });
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('role','tab');
+      btn.dataset.th = b.th;
+      if(n === 0) btn.classList.add('blank');
+      if(b.th === 70) btn.classList.add('hot');
+      btn.setAttribute('aria-pressed', String(state.th === b.th));
+      btn.appendChild(document.createTextNode(b.label));
+      var s = document.createElement('span'); s.className='n'; s.textContent = n; btn.appendChild(s);
+      btn.addEventListener('click', function(){ state.th = b.th; state.cat=''; render(); window.scrollTo({top:0,behavior:'smooth'}); });
+      wrap.appendChild(btn);
+    });
+  }
+
+  function renderGens(){
+    var opts = [{g:'',label:'전체'},{g:'w',label:'여성'},{g:'m',label:'남성'},{g:'a',label:'액세서리'}];
+    var wrap = $('gens'); wrap.textContent='';
+    opts.forEach(function(o){
+      var n = countBy(function(it){ return (!o.g || it.gen === o.g) && passTh(it); });
+      var btn = document.createElement('button');
+      btn.type='button';
+      btn.setAttribute('aria-pressed', String(state.gen === o.g));
+      btn.textContent = o.label + ' ' + n;
+      btn.addEventListener('click', function(){ state.gen = o.g; state.cat=''; render(); });
+      wrap.appendChild(btn);
+    });
+  }
+
+  function renderCats(){
+    var pool = state.data.filter(function(it){ return passTh(it) && passGen(it) && passQ(it); });
+    var counts = {}; pool.forEach(function(it){ counts[it.cat] = (counts[it.cat]||0)+1; });
+    var cats = Object.keys(counts).sort(function(a,b){ return counts[b]-counts[a]; });
+    var wrap = $('cats'); wrap.textContent='';
+    var all = document.createElement('button');
+    all.type='button'; all.textContent='전체 카테고리';
+    all.setAttribute('aria-pressed', String(state.cat===''));
+    all.addEventListener('click', function(){ state.cat=''; render(); });
+    wrap.appendChild(all);
+    cats.forEach(function(c){
+      var b = document.createElement('button');
+      b.type='button'; b.textContent = catLabel(c) + ' ' + counts[c];
+      b.setAttribute('aria-pressed', String(state.cat === c));
+      b.addEventListener('click', function(){ state.cat = (state.cat === c ? '' : c); render(); });
+      wrap.appendChild(b);
+    });
+    if(state.cat && !counts[state.cat]) state.cat = '';
+  }
+
+  function badgeClass(off){ return off >= 70 ? 'badge hi' : (off >= 50 ? 'badge mid' : 'badge'); }
+
+  function renderGrid(){
+    var list = state.data.filter(function(it){ return passTh(it) && passGen(it) && passCat(it) && passQ(it); });
+    list.sort(function(a,b){
+      if(state.sort === 'price') return a.sale - b.sale || b.off - a.off;
+      return b.off - a.off || a.sale - b.sale;
+    });
+
+    $('count').innerHTML = '';
+    var cb = document.createElement('b'); cb.textContent = list.length.toLocaleString('ko-KR');
+    $('count').appendChild(cb);
+    $('count').appendChild(document.createTextNode('개 상품' + (state.q ? ' · "' + state.q + '" 검색' : '')));
+
+    var grid = $('grid'); grid.textContent = '';
+    var frag = document.createDocumentFragment();
+    list.forEach(function(it){
+      var a = document.createElement('a');
+      a.className = 'card'; a.href = productUrl(it.id);
+      a.target = '_blank'; a.rel = 'noopener';
+
+      var thumb = document.createElement('div'); thumb.className = 'thumb';
+      var img = document.createElement('img');
+      img.loading = 'lazy'; img.decoding = 'async'; img.alt = it.name;
+      img.src = imgUrl(it.img);
+      img.addEventListener('error', function(){ img.style.visibility='hidden'; });
+      var badge = document.createElement('span'); badge.className = badgeClass(it.off); badge.textContent = '-' + it.off + '%';
+      thumb.appendChild(img); thumb.appendChild(badge);
+
+      var body = document.createElement('div'); body.className = 'body';
+      var nm = document.createElement('p'); nm.className='name'; nm.textContent = it.name;
+      var pr = document.createElement('p'); pr.className='prices';
+      var sp = document.createElement('span'); sp.className='sale'; sp.textContent = won(it.sale);
+      var lp = document.createElement('s'); lp.className='list'; lp.textContent = won(it.list);
+      pr.appendChild(sp); pr.appendChild(lp);
+      var ct = document.createElement('p'); ct.className='cat'; ct.textContent = catLabel(it.cat) + ' · ' + GEN_LABEL[it.gen];
+      body.appendChild(nm); body.appendChild(pr); body.appendChild(ct);
+
+      a.appendChild(thumb); a.appendChild(body);
+      frag.appendChild(a);
+    });
+    grid.appendChild(frag);
+
+    var empty = $('empty');
+    if(list.length === 0){
+      empty.hidden = false;
+      empty.innerHTML = '';
+      var t = document.createElement('b');
+      t.textContent = state.th === 70 ? '지금은 70% 이상 상품이 없어요' : '조건에 맞는 상품이 없어요';
+      empty.appendChild(t);
+      empty.appendChild(document.createTextNode('아래 탭에서 ');
+      var a50 = document.createElement('a'); a50.href='#'; a50.textContent='50% 이상'; 
+      a50.addEventListener('click', function(e){ e.preventDefault(); state.th=50; render(); });
+      empty.appendChild(a50);
+      empty.appendChild(document.createTextNode(' 또는 전체를 눌러 보세요.'));
+    } else {
+      empty.hidden = true;
+    }
+  }
+
+  function renderSummary(){
+    var st = (state.data.length && window.__stats) ? window.__stats : null;
+    var box = $('summary'); box.textContent='';
+    if(!st) return;
+    var mk = function(label, n){ var s=document.createElement('span'); s.innerHTML=''; s.appendChild(document.createTextNode(label+' ')); var b=document.createElement('b'); b.textContent=n; s.appendChild(b); return s; };
+    var n70 = st['th70'], n50 = st['th50'], mx = st['max'];
+    box.appendChild(mk('70%+', n70));
+    box.appendChild(mk('50%+', n50));
+    box.appendChild(mk('최고 할인', mx + '%'));
+  }
+
+  function render(){
+    renderTabs(); renderGens(); renderCats(); renderGrid();
+  }
+
+  $('q').addEventListener('input', function(e){ state.q = e.target.value.trim(); renderCats(); renderGrid(); });
+  Array.prototype.forEach.call($('sort').querySelectorAll('button'), function(b){
+    b.addEventListener('click', function(){
+      state.sort = b.dataset.sort;
+      Array.prototype.forEach.call($('sort').querySelectorAll('button'), function(x){ x.setAttribute('aria-pressed', String(x === b)); });
+      renderGrid();
+    });
+  });
+
+  fetch('data.json', {cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+    .then(function(data){
+      state.data = data.items || [];
+      var meta = data.meta || {};
+      $('updated').textContent = meta.updated_label || '';
+      $('updated2').textContent = meta.updated_label || '';
+      $('total').textContent = state.data.length.toLocaleString('ko-KR') + '개 상품 · ' + (meta.scope || '');
+      var s = (meta.stats || {});
+      window.__stats = {
+        th70: (s.by_threshold && s.by_threshold['70']) || 0,
+        th50: (s.by_threshold && s.by_threshold['50']) || 0,
+        max: s.max_off || 0
+      };
+      renderSummary();
+      state.th = (window.__stats.th70 > 0) ? 70 : 50;
+      render();
+    })
+    .catch(function(err){
+      $('updated').textContent = '상품 데이터를 불러오지 못했어요';
+      $('empty').hidden = false;
+      $('empty').textContent = '데이터 로드 실패(' + err.message + '). 잠시 후 새로고침해 주세요.';
+    });
+})();
+</script>
+</body>
+</html>
