@@ -233,6 +233,7 @@
       if (S.sub !== 'all' && it.sub !== S.sub) return false;
       if (S.status !== 'all' && it.status !== S.status) return false;
       if (S.elig && it.eligible !== 'yes') return false;
+
       return true;
     }).sort(function (a, b) {
       var sa = STATUS_ORDER[a.status] == null ? 9 : STATUS_ORDER[a.status];
@@ -384,7 +385,10 @@
     if (it.org) c.appendChild(el('p', 'org', it.org));
 
     var when = el('div', 'when', it.date_label || '일정 미공지');
-    if (it.reg_label) when.appendChild(el('span', 'r', '접수 ' + it.reg_label));
+    if (it.reg_label) {
+      var rl = /^[0-9]/.test(it.reg_label) ? '접수 ' + it.reg_label : it.reg_label;
+      when.appendChild(el('span', 'r', rl));
+    }
     c.appendChild(when);
 
     var dl = el('dl', 'rows');
