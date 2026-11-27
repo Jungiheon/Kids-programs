@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>큐브 · 레고코딩 대회 · 초등 저학년</title>
-<meta name="description" content="초등 2학년이 나갈 수 있는 큐브 대회와 레고코딩 대회를 분야별로 모아 접수 상태까지 한눈에. WCA 공인 대회, 한국큐브협회, FLL, WRO, 로봇올림피아드, 로보컵 등.">
+<title>큐브 · 레고코딩 대회 · 체험·교육 · 초등 저학년</title>
+<meta name="description" content="초등 2학년이 나갈 수 있는 큐브·레고코딩 대회와 체험·교육을 분야별로 모아 접수 상태까지 한눈에. WCA 공인 대회, FLL, WRO, 로봇올림피아드, 큐브교실, 레고 위두 코딩, 로봇·드론 코딩 등.">
 <meta name="theme-color" content="#ffffff">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -59,6 +59,7 @@
   }
   .summary span b{color:var(--red)}
   .summary span.s b{color:var(--blue)}
+  .summary span.g b{color:var(--green)}
   .summary span.t b{color:#7a8290}
 
   /* sticky filter bar */
@@ -80,6 +81,10 @@
   .seg button .n{margin-left:4px;font-weight:600;color:var(--muted);font-size:12px}
   .seg button[aria-pressed="true"]{background:var(--dark);border-color:var(--dark);color:#fff}
   .seg button[aria-pressed="true"] .n{color:#cbd0d8}
+  .seg.kinds{padding-bottom:2px}
+  .seg.kinds button{border-radius:999px;padding:8px 15px;font-size:14px}
+  .seg.kinds button[aria-pressed="true"]{background:var(--red);border-color:var(--red);color:#fff}
+  .seg.kinds button[aria-pressed="true"] .n{color:#fbd5de}
 
   .chips{display:flex;gap:5px;align-items:center;overflow-x:auto;scrollbar-width:none;margin-top:6px}
   .chips::-webkit-scrollbar{display:none}
@@ -93,6 +98,7 @@
   .chips button[aria-pressed="true"] .n{color:#5f6672}
   .chips button.st[aria-pressed="true"][data-st="open"]{background:var(--red-bg);border-color:#f4c9d4;color:#a3113a}
   .chips button.st[aria-pressed="true"][data-st="soon"]{background:var(--blue-bg);border-color:#c9d4f8;color:#1b3fa8}
+  .chips button.st[aria-pressed="true"][data-st="ongoing"]{background:var(--green-bg);border-color:#b7e0c9;color:#0f7a4a}
   .chips button.st[aria-pressed="true"][data-st="tbd"]{background:#eef0f3;border-color:#d9dde3;color:#3d424b}
   .chips button.st[aria-pressed="true"][data-st="closed"]{background:#f4f4f5;border-color:#e2e4e8;color:#8a919c}
   .chips button.elig{
@@ -120,6 +126,7 @@
   }
   .badge.open{background:var(--red-bg);color:#a3113a}
   .badge.soon{background:var(--blue-bg);color:#1b3fa8}
+  .badge.ongoing{background:var(--green-bg);color:var(--green)}
   .badge.tbd{background:#eef0f3;color:#4b515b}
   .badge.closed{background:#f2f3f5;color:#8a919c}
   .badge.sec{background:#f6f7f9;color:#5f6672;font-weight:700}
@@ -166,9 +173,9 @@
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="eyebrow">Contests · 큐브 · 레고코딩</div>
-    <h1 id="title">큐브 · 레고코딩 대회</h1>
-    <p class="sub" id="subtitle">초등 저학년이 나갈 수 있는 대회만 골라서</p>
+    <div class="eyebrow">Contests &amp; Classes · 큐브 · 레고코딩</div>
+    <h1 id="title">큐브 · 레고코딩 대회 · 체험·교육</h1>
+    <p class="sub" id="subtitle">초등 저학년이 나갈 수 있는 것만 골라서</p>
     <p class="meta">
       <span id="updated">불러오는 중…</span>
       <span class="dot">·</span>
@@ -178,12 +185,13 @@
   </header>
 
   <div class="bar">
+    <div class="seg kinds" id="segKind" role="group" aria-label="대분류"></div>
     <div class="seg" id="segField" role="group" aria-label="분야"></div>
     <div class="chips" id="chipsSub" role="group" aria-label="세부분야"></div>
     <div class="chips" id="chipsStatus" role="group" aria-label="접수 상태"></div>
   </div>
 
-  <div class="count"><span id="countLine"></span><span id="sortNote">접수중 → 예정 → 확인중 → 마감</span></div>
+  <div class="count"><span id="countLine"></span><span id="sortNote">접수중 → 예정 → 상시 → 확인중 → 마감</span></div>
   <main class="list" id="list"></main>
 
   <footer>
@@ -202,9 +210,9 @@
 
 <script>
 (function () {
-  var S = { field: 'all', sub: 'all', status: 'all', elig: false };
+  var S = { kind: 'all', field: 'all', sub: 'all', status: 'all', elig: false };
   var DATA = null;
-  var STATUS_ORDER = { open: 0, soon: 1, tbd: 2, closed: 3 };
+  var STATUS_ORDER = { open: 0, soon: 1, ongoing: 2, tbd: 3, closed: 4 };
 
   function el(tag, cls, text) {
     var n = document.createElement(tag);
@@ -227,8 +235,14 @@
     return s || { id: id, label: id };
   }
 
+  function kindLabel(id) {
+    var k = (DATA.kinds || []).filter(function (x) { return x.id === id; })[0];
+    return k ? k.label : id;
+  }
+
   function filtered() {
     return (DATA.items || []).filter(function (it) {
+      if (S.kind !== 'all' && it.kind !== S.kind) return false;
       if (S.field !== 'all' && it.field !== S.field) return false;
       if (S.sub !== 'all' && it.sub !== S.sub) return false;
       if (S.status !== 'all' && it.status !== S.status) return false;
@@ -258,18 +272,11 @@
       b.appendChild(el('div', null, m.disclaimer));
       if (m.counts_note) b.appendChild(el('div', 'fine', m.counts_note));
     }
-    // summary counts
-    var items = DATA.items || [];
-    function c(st) { return items.filter(function (i) { return i.status === st; }).length; }
-    var box = document.getElementById('summary');
-    [['open', '접수중', 'b'], ['soon', '접수예정', 's'], ['tbd', '일정확인중', 't']].forEach(function (t) {
-      var s = el('span', t[2] === 's' ? 's' : (t[2] === 't' ? 't' : ''));
-      s.innerHTML = t[1] + ' <b>' + c(t[0]) + '</b>';
-      box.appendChild(s);
-    });
-    var total = el('span');
-    total.innerHTML = '전체 <b>' + items.length + '</b>';
-    box.appendChild(total);
+    if (m.kinds_note) {
+      var b2 = document.getElementById('disclaimerBox');
+      b2.appendChild(el('div', 'fine', m.kinds_note));
+    }
+    renderSummary();
     // sources
     var src = DATA.sources || [];
     document.getElementById('srcCount').textContent = src.length ? '(' + src.length + ')' : '';
@@ -285,10 +292,45 @@
     document.title = (m.title || '대회') + ' · ' + (m.updated_label || '');
   }
 
+  function renderSummary() {
+    var items = (DATA.items || []).filter(function (i) { return S.kind === 'all' || i.kind === S.kind; });
+    function c(st) { return items.filter(function (i) { return i.status === st; }).length; }
+    var box = document.getElementById('summary');
+    box.innerHTML = '';
+    [['open', '접수중', ''], ['soon', '접수예정', 's'], ['ongoing', '상시운영', 'g'], ['tbd', '일정확인중', 't']].forEach(function (t) {
+      if (!c(t[0]) && t[0] === 'ongoing' && S.kind === 'contest') return;
+      var s = el('span', t[2]);
+      s.innerHTML = t[1] + ' <b>' + c(t[0]) + '</b>';
+      box.appendChild(s);
+    });
+    var total = el('span');
+    total.innerHTML = '전체 <b>' + items.length + '</b>';
+    box.appendChild(total);
+  }
+
+  function renderKindSeg() {
+    var seg = document.getElementById('segKind');
+    seg.innerHTML = '';
+    var items = DATA.items || [];
+    var opts = [{ id: 'all', label: '전체' }].concat(DATA.kinds || []);
+    opts.forEach(function (k) {
+      var n = k.id === 'all' ? items.length : items.filter(function (i) { return i.kind === k.id; }).length;
+      var b = el('button');
+      b.type = 'button';
+      b.setAttribute('aria-pressed', String(S.kind === k.id));
+      b.innerHTML = k.label + ' <span class="n">' + n + '</span>';
+      b.addEventListener('click', function () {
+        S.kind = k.id; S.field = 'all'; S.sub = 'all'; S.status = 'all'; S.elig = false;
+        renderAll();
+      });
+      seg.appendChild(b);
+    });
+  }
+
   function renderFieldSeg() {
     var seg = document.getElementById('segField');
     seg.innerHTML = '';
-    var items = DATA.items || [];
+    var items = (DATA.items || []).filter(function (i) { return S.kind === 'all' || i.kind === S.kind; });
     var opts = [{ id: 'all', label: '전체' }].concat(DATA.fields || []);
     opts.forEach(function (f) {
       var n = f.id === 'all' ? items.length : items.filter(function (i) { return i.field === f.id; }).length;
@@ -312,7 +354,11 @@
     var items = DATA.items || [];
     var subs = (DATA.subfields || []).filter(function (s) { return s.field === S.field; });
     if (!subs.length) { box.style.display = 'none'; return; }
-    var base = items.filter(function (i) { return i.field === S.field; });
+    var base = items.filter(function (i) { return i.field === S.field && (S.kind === 'all' || i.kind === S.kind); });
+    subs = subs.filter(function (s) {
+      return base.some(function (i) { return i.sub === s.id; }) || S.sub === s.id;
+    });
+    if (!subs.length) { box.style.display = 'none'; return; }
     var allBtn = el('button');
     allBtn.type = 'button';
     allBtn.setAttribute('aria-pressed', String(S.sub === 'all'));
@@ -334,6 +380,7 @@
     var box = document.getElementById('chipsStatus');
     box.innerHTML = '';
     var items = (DATA.items || []).filter(function (i) {
+      if (S.kind !== 'all' && i.kind !== S.kind) return false;
       if (S.field !== 'all' && i.field !== S.field) return false;
       if (S.sub !== 'all' && i.sub !== S.sub) return false;
       return true;
@@ -401,7 +448,7 @@
     }
     row('대상', it.target);
     row('장소', it.venue);
-    row('참가비', wonOrText(it.fee), true);
+    row(it.kind === 'edu' ? '수강료' : '참가비', wonOrText(it.fee), true);
     if (it.eligible_note) row('초2', it.eligible_note);
     c.appendChild(dl);
 
@@ -428,6 +475,7 @@
     list.innerHTML = '';
     var rows = filtered();
     var parts = [];
+    if (S.kind !== 'all') parts.push(kindLabel(S.kind));
     if (S.field !== 'all') parts.push(fieldLabel(S.field));
     if (S.sub !== 'all') parts.push(subLabel(S.sub));
     if (S.status !== 'all') parts.push(statusMeta(S.status).label);
@@ -435,20 +483,26 @@
     document.getElementById('countLine').innerHTML =
       (parts.length ? parts.join(' · ') + ' · ' : '') + '<b>' + rows.length + '</b>곳';
     if (!rows.length) {
-      var e = el('div', 'empty', '조건에 맞는 대회가 없습니다. 필터를 풀어 보세요.');
+      var e = el('div', 'empty', '조건에 맞는 항목이 없습니다. 필터를 풀어 보세요.');
       list.appendChild(e);
       return;
     }
     rows.forEach(function (it) { list.appendChild(card(it)); });
   }
 
-  function boot(data) {
-    DATA = data;
-    renderHeader();
+  function renderAll() {
+    renderKindSeg();
     renderFieldSeg();
     renderSubs();
     renderStatusChips();
+    renderSummary();
     renderList();
+  }
+
+  function boot(data) {
+    DATA = data;
+    renderHeader();
+    renderAll();
   }
 
   fetch('data.json', { cache: 'no-store' })
